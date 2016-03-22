@@ -742,7 +742,7 @@ namespace Exchange_UI
             }
             else
             {
-                draw.PaintStar(BasicData.mainUI.tlpTable1, new Point(locX, linePosY[0] + locDiffY + locDiffY), BasicData.mainUI.tlpTable1.BackColor);
+                draw.PaintStar(BasicData.mainUI.tlpTable1, new Point(locX, linePosY[0] + locDiffY ), BasicData.mainUI.tlpTable1.BackColor);
             }
             if (DataFiler.basicMoneyGroup[0].allMoneyBoth[1].PosLocation == 'L')
             {
@@ -1035,7 +1035,7 @@ namespace Exchange_UI
                 mBoth.PosNum > Setup.gJinTuiMore &&
                 (mBoth.moneyA.Order != Setup.gWithoutOrder1 && mBoth.moneyA.Order != Setup.gWithoutOrder2 && mBoth.MoneyB.Order != Setup.gWithoutOrder1 && mBoth.MoneyB.Order != Setup.gWithoutOrder2 ) &&
                 (mBoth.moneyA.Order + mBoth.MoneyB.Order) < Setup.gOrderSumLess &&
-                (mBoth.moneyA.ShortM > Setup.gShortBothMore && mBoth.MoneyB.ShortM > Setup.gShortBothMore) &&
+                (mBoth.moneyA.OrderLeft > Setup.gShortBothMore && mBoth.MoneyB.OrderLeft > Setup.gShortBothMore) &&
                 IsContainOrderLess(mBoth)
                 )
             {
@@ -1853,7 +1853,7 @@ namespace Exchange_UI
         public void InitCo()
         {
             int leftStartX = 1;
-            int[] leftY = { 30, 70, 110, 150, 190, 230 };   //左右均可用
+            int[] leftY = { 30, 50, 70, 90, 110, 130, 150, 190, 230 };   //左右均可用
             int leftEndX = 391;
             int shortX = 33;
 
@@ -1867,20 +1867,29 @@ namespace Exchange_UI
             draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[0]), new Point(leftEndX, leftY[0]));   //zuo6
             draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[0]), new Point(rightEndX, leftY[0]));   //you6
 
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[1]), new Point(leftEndX - shortX, leftY[1]));   //zuo5
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[1]), new Point(rightEndX - shortX, leftY[1]));   //you5
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[1]), new Point(leftEndX - shortX, leftY[1]));   //左90
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[1]), new Point(rightEndX - shortX, leftY[1])); //右90
 
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[2]), new Point(leftEndX - shortX, leftY[2]));   //zuo4
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[2]), new Point(rightEndX - shortX, leftY[2]));   //you4
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[2]), new Point(leftEndX - shortX, leftY[2]));   //zuo5
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[2]), new Point(rightEndX - shortX, leftY[2]));   //you5
 
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[3]), new Point(leftEndX - shortX, leftY[3]));   //zuo3
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[3]), new Point(rightEndX - shortX, leftY[3]));   //you3
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[3]), new Point(leftEndX - shortX, leftY[3]));   //左70
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[3]), new Point(rightEndX - shortX, leftY[3])); //右70
 
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[4]), new Point(leftEndX - shortX, leftY[4]));   //zuo2
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[4]), new Point(rightEndX - shortX, leftY[4]));   //you2
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[4]), new Point(leftEndX - shortX, leftY[4]));   //zuo4
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[4]), new Point(rightEndX - shortX, leftY[4]));   //you4
 
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[5]), new Point(leftEndX, leftY[5]));   //zuo1
-            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[5]), new Point(rightEndX, leftY[5]));   //you1
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[5]), new Point(leftEndX - shortX, leftY[5]));   //左50
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[5]), new Point(rightEndX - shortX, leftY[5])); //右50
+
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[6]), new Point(leftEndX - shortX, leftY[6]));   //zuo3
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[6]), new Point(rightEndX - shortX, leftY[6]));   //you3
+
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[7]), new Point(leftEndX - shortX, leftY[7]));   //zuo2
+            //draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[7]), new Point(rightEndX - shortX, leftY[7]));   //you2
+
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(leftStartX, leftY[8]), new Point(leftEndX, leftY[8]));   //zuo1
+            draw.PaintLine(BasicData.mainUI.pnlZoushi, lineColor, new Point(rightStartX, leftY[8]), new Point(rightEndX, leftY[8]));   //you1
             #endregion
         }
         public void ToMoneyBoth()
@@ -2468,7 +2477,10 @@ namespace Exchange_UI
             mBoth.ShortState = 0;
             if (Setup.sIsGreenAndRed)
             {
-                if (mBoth.moneyA.MoneyColor == mBoth.MoneyB.MoneyColor)
+                if ( 
+                    (mBoth.moneyA.MoneyColor != Color.Green && mBoth.MoneyB.MoneyColor != Color.FromArgb(204, 0, 0)) &&
+                    (mBoth.moneyA.MoneyColor != Color.FromArgb(204, 0, 0) && mBoth.MoneyB.MoneyColor != Color.Green)
+                   )
                     return false;
             }
             if (mBoth.moneyA.Order == Setup.sWithoutNum1 ||

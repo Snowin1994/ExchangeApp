@@ -265,7 +265,7 @@ namespace Exchange_UI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
         public int gShortBothMore {
             get {
                 return ((int)(this["gShortBothMore"]));
@@ -1232,6 +1232,30 @@ namespace Exchange_UI {
             }
             set {
                 this["lastClosedAppTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int gPChangeOrderNum {
+            get {
+                return ((int)(this["gPChangeOrderNum"]));
+            }
+            set {
+                this["gPChangeOrderNum"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool gIsUseSound {
+            get {
+                return ((bool)(this["gIsUseSound"]));
+            }
+            set {
+                this["gIsUseSound"] = value;
             }
         }
     }

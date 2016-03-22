@@ -59,7 +59,7 @@ namespace Exchange_UI
         public static int gWithoutOrder1 = 7;
         public static int gWithoutOrder2 = 8;
         public static int gOrderSumLess = 9;
-        public static int gShortBothMore = 0;
+        public static int gShortBothMore = 60;
         public static int gLongSumMore = -5;
         public static int gFengzhongSumMore = 100;
 

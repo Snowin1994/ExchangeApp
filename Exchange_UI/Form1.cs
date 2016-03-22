@@ -96,6 +96,9 @@ namespace Exchange_UI
             Setup.gShortBothMore = AllSettings.Default.gShortBothMore;
             Setup.gLongSumMore = AllSettings.Default.gLongSumMore;
             Setup.gFengzhongSumMore = AllSettings.Default.gFengzhongSumMore;
+
+            Setup.gPChangeOrderNum = AllSettings.Default.gPChangeOrderNum;
+            Setup.gIsUseSound = AllSettings.Default.gIsUseSound;
             #endregion
 
             #region 短观值非常态设置
@@ -315,6 +318,9 @@ namespace Exchange_UI
             AllSettings.Default.gShortBothMore= Setup.gShortBothMore;
             AllSettings.Default.gLongSumMore= Setup.gLongSumMore;
             AllSettings.Default.gFengzhongSumMore= Setup.gFengzhongSumMore;
+
+            AllSettings.Default.gPChangeOrderNum = Setup.gPChangeOrderNum;
+            AllSettings.Default.gIsUseSound = Setup.gIsUseSound;
             #endregion
 
             #region 短观值非常态设置

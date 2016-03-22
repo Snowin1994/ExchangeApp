@@ -538,6 +538,12 @@
             this.lblNZD = new System.Windows.Forms.Label();
             this.timerSys = new System.Windows.Forms.Timer(this.components);
             this.timerCountDown = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tlpTable3.SuspendLayout();
             this.panel29.SuspendLayout();
@@ -2018,7 +2024,7 @@
             this.tlpTable7.Margin = new System.Windows.Forms.Padding(0);
             this.tlpTable7.Name = "tlpTable7";
             this.tlpTable7.RowCount = 1;
-            this.tlpTable7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpTable7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tlpTable7.Size = new System.Drawing.Size(659, 28);
             this.tlpTable7.TabIndex = 6;
             // 
@@ -2029,7 +2035,7 @@
             this.panel25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel25.Location = new System.Drawing.Point(86, 4);
             this.panel25.Name = "panel25";
-            this.panel25.Size = new System.Drawing.Size(75, 30);
+            this.panel25.Size = new System.Drawing.Size(75, 31);
             this.panel25.TabIndex = 96;
             // 
             // lblMB28
@@ -2068,7 +2074,7 @@
             this.tableLayoutPanel63.Name = "tableLayoutPanel63";
             this.tableLayoutPanel63.RowCount = 1;
             this.tableLayoutPanel63.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel63.Size = new System.Drawing.Size(60, 30);
+            this.tableLayoutPanel63.Size = new System.Drawing.Size(60, 31);
             this.tableLayoutPanel63.TabIndex = 76;
             // 
             // longB28
@@ -2092,7 +2098,7 @@
             this.longA28.ForeColor = System.Drawing.Color.Green;
             this.longA28.Location = new System.Drawing.Point(3, 0);
             this.longA28.Name = "longA28";
-            this.longA28.Size = new System.Drawing.Size(24, 30);
+            this.longA28.Size = new System.Drawing.Size(24, 31);
             this.longA28.TabIndex = 20;
             this.longA28.Text = "5";
             this.longA28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2170,7 +2176,7 @@
             this.tableLayoutPanel44.Name = "tableLayoutPanel44";
             this.tableLayoutPanel44.RowCount = 1;
             this.tableLayoutPanel44.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel44.Size = new System.Drawing.Size(64, 36);
+            this.tableLayoutPanel44.Size = new System.Drawing.Size(64, 37);
             this.tableLayoutPanel44.TabIndex = 74;
             // 
             // shortB28
@@ -2181,7 +2187,7 @@
             this.shortB28.Location = new System.Drawing.Point(32, 0);
             this.shortB28.Margin = new System.Windows.Forms.Padding(0);
             this.shortB28.Name = "shortB28";
-            this.shortB28.Size = new System.Drawing.Size(32, 36);
+            this.shortB28.Size = new System.Drawing.Size(32, 37);
             this.shortB28.TabIndex = 21;
             this.shortB28.Text = "12";
             this.shortB28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2194,7 +2200,7 @@
             this.shortA28.Location = new System.Drawing.Point(0, 0);
             this.shortA28.Margin = new System.Windows.Forms.Padding(0);
             this.shortA28.Name = "shortA28";
-            this.shortA28.Size = new System.Drawing.Size(32, 36);
+            this.shortA28.Size = new System.Drawing.Size(32, 37);
             this.shortA28.TabIndex = 20;
             this.shortA28.Text = "34";
             this.shortA28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -6887,6 +6893,12 @@
             // pnlZoushi
             // 
             this.pnlZoushi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(40)))));
+            this.pnlZoushi.Controls.Add(this.label20);
+            this.pnlZoushi.Controls.Add(this.label21);
+            this.pnlZoushi.Controls.Add(this.label22);
+            this.pnlZoushi.Controls.Add(this.label19);
+            this.pnlZoushi.Controls.Add(this.label18);
+            this.pnlZoushi.Controls.Add(this.label1);
             this.pnlZoushi.Controls.Add(this.lblZSTimeB2);
             this.pnlZoushi.Controls.Add(this.lblZSTimeB1);
             this.pnlZoushi.Controls.Add(this.lblZSTimeA2);
@@ -7001,76 +7013,84 @@
             this.label15.Size = new System.Drawing.Size(17, 12);
             this.label15.TabIndex = 7;
             this.label15.Text = "20";
+            this.label15.Visible = false;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.ForeColor = System.Drawing.Color.DarkGray;
-            this.label16.Location = new System.Drawing.Point(770, 145);
+            this.label16.Location = new System.Drawing.Point(769, 145);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(17, 12);
             this.label16.TabIndex = 6;
             this.label16.Text = "40";
+            this.label16.Visible = false;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
             this.label17.ForeColor = System.Drawing.Color.DarkGray;
-            this.label17.Location = new System.Drawing.Point(770, 105);
+            this.label17.Location = new System.Drawing.Point(770, 106);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(17, 12);
             this.label17.TabIndex = 5;
             this.label17.Text = "60";
+            this.label17.Visible = false;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.ForeColor = System.Drawing.Color.DarkGray;
-            this.label14.Location = new System.Drawing.Point(771, 67);
+            this.label14.Location = new System.Drawing.Point(770, 67);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(17, 12);
             this.label14.TabIndex = 4;
             this.label14.Text = "80";
+            this.label14.Visible = false;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.ForeColor = System.Drawing.Color.DarkGray;
-            this.label13.Location = new System.Drawing.Point(364, 186);
+            this.label13.Location = new System.Drawing.Point(361, 186);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(17, 12);
             this.label13.TabIndex = 3;
             this.label13.Text = "20";
+            this.label13.Visible = false;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.Color.DarkGray;
-            this.label12.Location = new System.Drawing.Point(364, 147);
+            this.label12.Location = new System.Drawing.Point(361, 147);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(17, 12);
             this.label12.TabIndex = 2;
             this.label12.Text = "40";
+            this.label12.Visible = false;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.ForeColor = System.Drawing.Color.DarkGray;
-            this.label11.Location = new System.Drawing.Point(364, 108);
+            this.label11.Location = new System.Drawing.Point(361, 106);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(17, 12);
             this.label11.TabIndex = 1;
             this.label11.Text = "60";
+            this.label11.Visible = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.ForeColor = System.Drawing.Color.DarkGray;
-            this.label10.Location = new System.Drawing.Point(364, 66);
+            this.label10.Location = new System.Drawing.Point(361, 66);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(17, 12);
             this.label10.TabIndex = 0;
             this.label10.Text = "80";
+            this.label10.Visible = false;
             // 
             // pnlFengxiang
             // 
@@ -7444,6 +7464,66 @@
             // 
             this.timerCountDown.Enabled = true;
             this.timerCountDown.Tick += new System.EventHandler(this.timerCountDown_Tick);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.DarkGray;
+            this.label1.Location = new System.Drawing.Point(361, 87);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(17, 12);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "70";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.Color.DarkGray;
+            this.label18.Location = new System.Drawing.Point(361, 127);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(17, 12);
+            this.label18.TabIndex = 17;
+            this.label18.Text = "50";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.ForeColor = System.Drawing.Color.DarkGray;
+            this.label19.Location = new System.Drawing.Point(361, 46);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(17, 12);
+            this.label19.TabIndex = 18;
+            this.label19.Text = "90";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.ForeColor = System.Drawing.Color.DarkGray;
+            this.label20.Location = new System.Drawing.Point(770, 47);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(17, 12);
+            this.label20.TabIndex = 21;
+            this.label20.Text = "90";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.ForeColor = System.Drawing.Color.DarkGray;
+            this.label21.Location = new System.Drawing.Point(769, 127);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(17, 12);
+            this.label21.TabIndex = 20;
+            this.label21.Text = "50";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.ForeColor = System.Drawing.Color.DarkGray;
+            this.label22.Location = new System.Drawing.Point(769, 87);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(17, 12);
+            this.label22.TabIndex = 19;
+            this.label22.Text = "70";
             // 
             // MainUI
             // 
@@ -8142,6 +8222,12 @@
         public System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.TableLayoutPanel tlpRixing;
         public System.Windows.Forms.TableLayoutPanel tlpFengxiang;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
 
 
 

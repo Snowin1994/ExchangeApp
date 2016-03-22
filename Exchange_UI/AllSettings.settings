@@ -63,7 +63,7 @@
       <Value Profile="(Default)">9</Value>
     </Setting>
     <Setting Name="gShortBothMore" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="gLongSumMore" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-5</Value>
@@ -304,6 +304,12 @@
     </Setting>
     <Setting Name="lastClosedAppTime" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">2016-03-14</Value>
+    </Setting>
+    <Setting Name="gPChangeOrderNum" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="gIsUseSound" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

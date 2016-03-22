@@ -48,6 +48,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnShortFinish = new System.Windows.Forms.Button();
             this.comboBox20 = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
             this.comboBox19 = new System.Windows.Forms.ComboBox();
@@ -71,6 +72,8 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox15 = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.btnDianchaFinish = new System.Windows.Forms.Button();
             this.comboBox7 = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -162,9 +165,6 @@
             this.label40 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
             this.fbdGetPath = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnShortFinish = new System.Windows.Forms.Button();
-            this.checkBox15 = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.tbcSetup.SuspendLayout();
             this.tpgTable.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -506,6 +506,18 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "短观栏 - 非常态条件";
+            // 
+            // btnShortFinish
+            // 
+            this.btnShortFinish.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnShortFinish.Enabled = false;
+            this.btnShortFinish.Location = new System.Drawing.Point(213, 133);
+            this.btnShortFinish.Name = "btnShortFinish";
+            this.btnShortFinish.Size = new System.Drawing.Size(65, 23);
+            this.btnShortFinish.TabIndex = 37;
+            this.btnShortFinish.Text = "更改";
+            this.btnShortFinish.UseVisualStyleBackColor = true;
+            this.btnShortFinish.Click += new System.EventHandler(this.btnShortFinish_Click);
             // 
             // comboBox20
             // 
@@ -1067,6 +1079,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "绿色提示符 - 提示条件";
             // 
+            // checkBox15
+            // 
+            this.checkBox15.AutoSize = true;
+            this.checkBox15.Location = new System.Drawing.Point(256, 227);
+            this.checkBox15.Name = "checkBox15";
+            this.checkBox15.Size = new System.Drawing.Size(15, 14);
+            this.checkBox15.TabIndex = 39;
+            this.checkBox15.UseVisualStyleBackColor = true;
+            this.checkBox15.CheckedChanged += new System.EventHandler(this.checkBox15_CheckedChanged_1);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 227);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(209, 12);
+            this.label8.TabIndex = 38;
+            this.label8.Text = "倒计时栏出现绿色提示符，播放提示音";
+            // 
             // btnDianchaFinish
             // 
             this.btnDianchaFinish.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -1132,77 +1163,37 @@
             this.comboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox6.FormattingEnabled = true;
             this.comboBox6.Items.AddRange(new object[] {
-            "-20",
-            "-19",
-            "-18",
-            "-17",
-            "-16",
-            "-15",
-            "-14",
-            "-13",
-            "-12",
-            "-11",
-            "-10",
-            "-9",
-            "-8",
-            "-7",
-            "-6",
-            "-5",
-            "-4",
-            "-3",
-            "-2",
-            "-1",
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30",
-            "31",
-            "32",
-            "33",
-            "34",
-            "35",
-            "36",
-            "37",
-            "38",
-            "39",
-            "40",
-            "41",
-            "42",
-            "43",
-            "44",
-            "45",
-            "46",
-            "47",
-            "48",
-            "49",
-            "50"});
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80"});
             this.comboBox6.Location = new System.Drawing.Point(206, 156);
             this.comboBox6.Name = "comboBox6";
             this.comboBox6.Size = new System.Drawing.Size(64, 20);
@@ -1214,9 +1205,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(7, 159);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 12);
+            this.label6.Size = new System.Drawing.Size(137, 12);
             this.label6.TabIndex = 11;
-            this.label6.Text = "短观值均大于";
+            this.label6.Text = "两个货币的走势值均大于";
             // 
             // comboBox5
             // 
@@ -2893,37 +2884,6 @@
             this.label41.Size = new System.Drawing.Size(173, 12);
             this.label41.TabIndex = 22;
             this.label41.Text = "进退栏里显示买卖符号的货币对";
-            // 
-            // btnShortFinish
-            // 
-            this.btnShortFinish.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnShortFinish.Enabled = false;
-            this.btnShortFinish.Location = new System.Drawing.Point(213, 133);
-            this.btnShortFinish.Name = "btnShortFinish";
-            this.btnShortFinish.Size = new System.Drawing.Size(65, 23);
-            this.btnShortFinish.TabIndex = 37;
-            this.btnShortFinish.Text = "更改";
-            this.btnShortFinish.UseVisualStyleBackColor = true;
-            this.btnShortFinish.Click += new System.EventHandler(this.btnShortFinish_Click);
-            // 
-            // checkBox15
-            // 
-            this.checkBox15.AutoSize = true;
-            this.checkBox15.Location = new System.Drawing.Point(256, 227);
-            this.checkBox15.Name = "checkBox15";
-            this.checkBox15.Size = new System.Drawing.Size(15, 14);
-            this.checkBox15.TabIndex = 39;
-            this.checkBox15.UseVisualStyleBackColor = true;
-            this.checkBox15.CheckedChanged += new System.EventHandler(this.checkBox15_CheckedChanged_1);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 227);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(209, 12);
-            this.label8.TabIndex = 38;
-            this.label8.Text = "倒计时栏出现绿色提示符，播放提示音";
             // 
             // FMSetup
             // 
