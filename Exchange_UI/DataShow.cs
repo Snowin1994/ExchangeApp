@@ -367,7 +367,7 @@ namespace Exchange_UI
             }
 
             //纵线
-            int[] tableVPosX = { 0, 82, 164, 246, 309, 378, 479, 572, 658 };     //线终点 纵坐标
+            int[] tableVPosX = { 0, 82, 164, 246, 311, 378, 479, 572, 658 };     //线终点 纵坐标
             int tableVPosY = 1;      //线起点 横坐标
             int[] tableVLength = { 182, 156, 130, 104, 78, 52, 28 };
             for (int j = 0; j < DataFiler.basicMoneyGroup.Length; j++)
@@ -1035,8 +1035,7 @@ namespace Exchange_UI
                 mBoth.PosNum > Setup.gJinTuiMore &&
                 (mBoth.moneyA.Order != Setup.gWithoutOrder1 && mBoth.moneyA.Order != Setup.gWithoutOrder2 && mBoth.MoneyB.Order != Setup.gWithoutOrder1 && mBoth.MoneyB.Order != Setup.gWithoutOrder2 ) &&
                 (mBoth.moneyA.Order + mBoth.MoneyB.Order) < Setup.gOrderSumLess &&
-                (mBoth.moneyA.OrderLeft > Setup.gShortBothMore && mBoth.MoneyB.OrderLeft > Setup.gShortBothMore) &&
-                IsContainOrderLess(mBoth)
+                (mBoth.moneyA.OrderLeft > Setup.gShortBothMore && mBoth.MoneyB.OrderLeft > Setup.gShortBothMore)
                 )
             {
                 if(Setup.gIsColorDiff)
@@ -1075,6 +1074,7 @@ namespace Exchange_UI
             int[] X = { 51, 151, 251, 351, 451, 551, 651, 754 };
             int Y = 100;
             int Y_Red = 126;    //153
+            Color shadowLineColor = Color.FromArgb(80, 80, 80);
 
             for (int i = 0; i < X.Length; i++)
             {
@@ -1086,7 +1086,7 @@ namespace Exchange_UI
                     {
                         draw.PaintRectangle(
                             BasicData.mainUI.pnlRixing,
-                            Color.DimGray,
+                            shadowLineColor,
                             new Point(X[i] - DrawGraph.xPercent * DataFiler.basicMoney[i].YColorX[j] / 2,
                                 Y - maxMark * DataFiler.basicMoney[i].YLengthY[j]/maxLengthY),
                             DrawGraph.xPercent * DataFiler.basicMoney[i].YColorX[j],
@@ -1098,7 +1098,7 @@ namespace Exchange_UI
                     {
                         draw.PaintRectangle(
                             BasicData.mainUI.pnlRixing,
-                            Color.DimGray,
+                            shadowLineColor,
                             new Point(X[i] + DrawGraph.xPercent * DataFiler.basicMoney[i].YColorX[j] / 2,
                                 Y_Red),
                             DrawGraph.xPercent * (-DataFiler.basicMoney[i].YColorX[j]),
@@ -1948,62 +1948,29 @@ namespace Exchange_UI
         public void ToShort()
         {
             #region shortLook
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[0].moneyA.ShortM).ToString(), BasicData.mainUI.shortA1 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[0].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB1 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[1].moneyA.ShortM).ToString(), BasicData.mainUI.shortA2 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[1].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB2 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[2].moneyA.ShortM).ToString(), BasicData.mainUI.shortA3 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[2].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB3 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[3].moneyA.ShortM).ToString(), BasicData.mainUI.shortA4 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[3].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB4 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[4].moneyA.ShortM).ToString(), BasicData.mainUI.shortA5 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[4].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB5 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[5].moneyA.ShortM).ToString(), BasicData.mainUI.shortA6 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[5].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB6 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[6].moneyA.ShortM).ToString(), BasicData.mainUI.shortA7 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[0].allMoneyBoth[6].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB7 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[0].moneyA.ShortM).ToString(), BasicData.mainUI.shortA8 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[0].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB8 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[1].moneyA.ShortM).ToString(), BasicData.mainUI.shortA9 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[1].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB9 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[2].moneyA.ShortM).ToString(), BasicData.mainUI.shortA10 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[2].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB10 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[3].moneyA.ShortM).ToString(), BasicData.mainUI.shortA11 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[3].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB11 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[4].moneyA.ShortM).ToString(), BasicData.mainUI.shortA12 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[4].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB12 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[5].moneyA.ShortM).ToString(), BasicData.mainUI.shortA13 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[1].allMoneyBoth[5].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB13 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[0].moneyA.ShortM).ToString(), BasicData.mainUI.shortA14 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[0].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB14 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[1].moneyA.ShortM).ToString(), BasicData.mainUI.shortA15 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[1].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB15 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[2].moneyA.ShortM).ToString(), BasicData.mainUI.shortA16 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[2].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB16 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[3].moneyA.ShortM).ToString(), BasicData.mainUI.shortA17 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[3].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB17 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[4].moneyA.ShortM).ToString(), BasicData.mainUI.shortA18 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[2].allMoneyBoth[4].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB18 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[0].moneyA.ShortM).ToString(), BasicData.mainUI.shortA19 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[0].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB19 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[1].moneyA.ShortM).ToString(), BasicData.mainUI.shortA20 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[1].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB20 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[2].moneyA.ShortM).ToString(), BasicData.mainUI.shortA21 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[2].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB21 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[3].moneyA.ShortM).ToString(), BasicData.mainUI.shortA22 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[3].allMoneyBoth[3].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB22 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[4].allMoneyBoth[0].moneyA.ShortM).ToString(), BasicData.mainUI.shortA23 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[4].allMoneyBoth[0].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB23 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[4].allMoneyBoth[1].moneyA.ShortM).ToString(), BasicData.mainUI.shortA24 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[4].allMoneyBoth[1].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB24 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[4].allMoneyBoth[2].moneyA.ShortM).ToString(), BasicData.mainUI.shortA25 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[4].allMoneyBoth[2].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB25 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[5].allMoneyBoth[0].moneyA.ShortM).ToString(), BasicData.mainUI.shortA26 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[5].allMoneyBoth[0].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB26 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[5].allMoneyBoth[1].moneyA.ShortM).ToString(), BasicData.mainUI.shortA27 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[5].allMoneyBoth[1].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB27 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[6].allMoneyBoth[0].moneyA.ShortM).ToString(), BasicData.mainUI.shortA28 });
-            BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { Math.Abs(DataFiler.basicMoneyGroup[6].allMoneyBoth[0].MoneyB.ShortM).ToString(), BasicData.mainUI.shortB28 });
+
+            int lineNum = 0;
+            for (int i = 0; i < DataFiler.basicMoneyGroup.Length; i++ )
+            {
+                for (int j = 0; j < DataFiler.basicMoneyGroup[i].allMoneyBoth.Length; j++)
+                {
+                    BasicData.mainUI.Invoke(
+                        BasicData.mainUI.ShowText, 
+                        new object[] { 
+                            Math.Abs(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].moneyA.OrderLeft).ToString(),
+                            lblShortA[lineNum]
+                        });
+                    BasicData.mainUI.Invoke(
+                        BasicData.mainUI.ShowText, 
+                        new object[] { 
+                            Math.Abs(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].MoneyB.OrderLeft).ToString(),
+                            lblShortB[lineNum]
+                        });
+
+                    lineNum++;
+                }
+            }
+
             #endregion
         }
 

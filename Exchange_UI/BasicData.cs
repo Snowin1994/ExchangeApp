@@ -36,65 +36,72 @@ namespace Exchange_UI
 
         public static void Run()
         {
-            if(BasicData.indexNum == 0)
-                dataFiler = new DataFiler();
-            //Thread.Sleep(300);
-            dataShow = new DataShow();
-            if (dataFiler.IsGetData())
+            try
             {
-                dataFiler.GetData();
-                //dataFiler.SetColor();
-
-                dataShow.ToTable();
-
-
-                dataShow.ToZhongzhou();
-
-                //dataShow.UpLine();
-                dataShow.UpStar();
-                dataShow.UpCirMark();
-                dataShow.ToRixingtu();
-                dataShow.ToFengxiangtu();
-                dataShow.ToZoushitu();
-                dataShow.ToSignLight();
-            }
-
-            if (BasicData.indexNum == 0)
-            {
-                foreach (TimeCountDown tcd in FMWarnTime.timeCountDown)
+                if (BasicData.indexNum == 0)
+                    dataFiler = new DataFiler();
+                //Thread.Sleep(300);
+                dataShow = new DataShow();
+                if (dataFiler.IsGetData())
                 {
-                    DataFiler.FindMoney(tcd.Name).wakeupList.Add(tcd.CountDown);
+                    dataFiler.GetData();
+                    //dataFiler.SetColor();
+
+                    dataShow.ToTable();
+
+
+                    dataShow.ToZhongzhou();
+
+                    //dataShow.UpLine();
+                    dataShow.UpStar();
+                    dataShow.UpCirMark();
+                    dataShow.ToRixingtu();
+                    dataShow.ToFengxiangtu();
+                    dataShow.ToZoushitu();
+                    dataShow.ToSignLight();
                 }
-                foreach (Money money in DataFiler.basicMoney)
+
+                if (BasicData.indexNum == 0)
                 {
-                    if (money.wakeupList.Count != 0)
+                    foreach (TimeCountDown tcd in FMWarnTime.timeCountDown)
                     {
-                        money.wakeupList.Sort();
+                        DataFiler.FindMoney(tcd.Name).wakeupList.Add(tcd.CountDown);
+                    }
+                    foreach (Money money in DataFiler.basicMoney)
+                    {
+                        if (money.wakeupList.Count != 0)
+                        {
+                            money.wakeupList.Sort();
+                        }
                     }
                 }
+
+
+                //if (BasicData.indexNum == 2)
+                //{
+                //    dataShow.ToZoushitu();
+                //    dataShow.ToFengxiangtu();
+                //}
+
+                dataShow.ToShortSuperNum();
+                dataShow.ToTime();
+                dataShow.ToZSTDownTime();
+                dataShow.Countdown();
+                //dataShow.ToOutMark();
+
+                dataFiler.PPP();
+                dataShow.ToLocation();
+
+                dataFiler.ToGGG();
+
+                indexNum++;
+                Thread.Sleep(2000);     //3000 修改为 1000
+                Run();
             }
-
-
-            //if (BasicData.indexNum == 2)
-            //{
-            //    dataShow.ToZoushitu();
-            //    dataShow.ToFengxiangtu();
-            //}
-
-            dataShow.ToShortSuperNum();
-            dataShow.ToTime();
-            dataShow.ToZSTDownTime();
-            dataShow.Countdown();
-            //dataShow.ToOutMark();
-
-            dataFiler.PPP();
-            dataShow.ToLocation();
-
-            dataFiler.ToGGG();
-
-            indexNum++;
-            Thread.Sleep(2000);     //3000 修改为 1000
-            Run();
+            catch(Exception ex)
+            {
+                Console.Write(ex.ToString());
+            }
         }
 
         public static void PlayMusic()

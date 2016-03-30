@@ -569,7 +569,7 @@ namespace Exchange_UI
         {
             fenzhu();
             diancha();
-            SVLV();
+            //SVLV();
             PPP();
             TTT();
             jjj();
@@ -578,7 +578,7 @@ namespace Exchange_UI
             SetGroup();
             LongSumBSix();
             ShortTrueNum();
-            GetPriceChangeName();
+            //GetPriceChangeName();
         }
 
         private void GetPriceChangeName()
@@ -594,7 +594,9 @@ namespace Exchange_UI
             Setup.priceChangeOrder.Sort();
         }
 
-
+        /// <summary>
+        /// 计算货币中 排序号前六的短观值为正数的数目
+        /// </summary>
         private void ShortTrueNum()
         {
             Money.ShortTrueNum = 0;

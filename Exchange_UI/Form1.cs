@@ -233,16 +233,16 @@ namespace Exchange_UI
             try
             {
                 FM.Text = s;
-                sp.SoundLocation = @".\jingbao.wav";
-                sp.Play();
+                //sp.SoundLocation = @".\jingbao.wav";
+                //sp.Play();
                 //Thread.Sleep(2000);
                 //sp.Stop();
             }
             catch(Exception ex)
             {
-                BasicData.mainUI.Invoke(BasicData.mainUI.ShowFormText, new object[] { 
-                    DataFiler.basicFormText + "*未找到音效文件*",
-                    BasicData.mainUI });
+                //BasicData.mainUI.Invoke(BasicData.mainUI.ShowFormText, new object[] { 
+                //    DataFiler.basicFormText + "*未找到音效文件*",
+                //    BasicData.mainUI });
             }
         }
         public void setLabelFont(Font f, System.Windows.Forms.Label LB)
@@ -549,6 +549,17 @@ namespace Exchange_UI
                 drawS.ToZoushitu();
                 drawS.ToFengxiangtu();
             }
+
+            #region 检查是否发现错误
+            if (Setup.isFoundError)
+            {
+                //Thread.Sleep(Setup.stopSec * 1000);
+                this.Text = DataFiler.basicFormText;
+
+                Setup.isFoundError = false;
+            }
+            #endregion
+
         }
 
 
@@ -605,13 +616,13 @@ namespace Exchange_UI
 
         private void MainUI_TextChanged(object sender, EventArgs e)
         {
-            if (Setup.isFoundError)
-            {
-                Thread.Sleep(Setup.stopSec * 1000);
-                this.Text = DataFiler.basicFormText;
+            //if (Setup.isFoundError)
+            //{
+            //    Thread.Sleep(Setup.stopSec * 1000);
+            //    this.Text = DataFiler.basicFormText;
 
-                Setup.isFoundError = false;
-            }
+            //    Setup.isFoundError = false;
+            //}
         }
 
         #region 中轴按钮色块变化

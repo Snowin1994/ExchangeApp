@@ -332,10 +332,12 @@ namespace Exchange_UI
         /// <param name="start"></param>
         internal void PaintStr(Control con, string p, Point start)
         {
+            Brush lightGreen = new SolidBrush(Color.FromArgb(0, 252, 0));
+
             graph = con.CreateGraphics();
             if (p == "B")
             {
-                graph.DrawString(p, new Font("Kartika", 10), Brushes.Green, start);
+                graph.DrawString(p, new Font("Kartika", 10), lightGreen, start);
             }
             else
             {

@@ -496,6 +496,12 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblMax = new System.Windows.Forms.Label();
             this.pnlZoushi = new System.Windows.Forms.Panel();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblZSTimeB2 = new System.Windows.Forms.Label();
             this.lblZSTimeB1 = new System.Windows.Forms.Label();
             this.lblZSTimeA2 = new System.Windows.Forms.Label();
@@ -538,12 +544,6 @@
             this.lblNZD = new System.Windows.Forms.Label();
             this.timerSys = new System.Windows.Forms.Timer(this.components);
             this.timerCountDown = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tlpTable3.SuspendLayout();
             this.panel29.SuspendLayout();
@@ -2024,7 +2024,7 @@
             this.tlpTable7.Margin = new System.Windows.Forms.Padding(0);
             this.tlpTable7.Name = "tlpTable7";
             this.tlpTable7.RowCount = 1;
-            this.tlpTable7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tlpTable7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tlpTable7.Size = new System.Drawing.Size(659, 28);
             this.tlpTable7.TabIndex = 6;
             // 
@@ -2035,7 +2035,7 @@
             this.panel25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel25.Location = new System.Drawing.Point(86, 4);
             this.panel25.Name = "panel25";
-            this.panel25.Size = new System.Drawing.Size(75, 31);
+            this.panel25.Size = new System.Drawing.Size(75, 32);
             this.panel25.TabIndex = 96;
             // 
             // lblMB28
@@ -2074,7 +2074,7 @@
             this.tableLayoutPanel63.Name = "tableLayoutPanel63";
             this.tableLayoutPanel63.RowCount = 1;
             this.tableLayoutPanel63.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel63.Size = new System.Drawing.Size(60, 31);
+            this.tableLayoutPanel63.Size = new System.Drawing.Size(60, 32);
             this.tableLayoutPanel63.TabIndex = 76;
             // 
             // longB28
@@ -2083,7 +2083,7 @@
             this.longB28.AutoSize = true;
             this.longB28.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.longB28.ForeColor = System.Drawing.Color.Green;
-            this.longB28.Location = new System.Drawing.Point(42, 8);
+            this.longB28.Location = new System.Drawing.Point(42, 9);
             this.longB28.Name = "longB28";
             this.longB28.Size = new System.Drawing.Size(15, 14);
             this.longB28.TabIndex = 21;
@@ -2098,7 +2098,7 @@
             this.longA28.ForeColor = System.Drawing.Color.Green;
             this.longA28.Location = new System.Drawing.Point(3, 0);
             this.longA28.Name = "longA28";
-            this.longA28.Size = new System.Drawing.Size(24, 31);
+            this.longA28.Size = new System.Drawing.Size(24, 32);
             this.longA28.TabIndex = 20;
             this.longA28.Text = "5";
             this.longA28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2108,7 +2108,7 @@
             this.dwName28.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dwName28.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dwName28.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.dwName28.Location = new System.Drawing.Point(578, 9);
+            this.dwName28.Location = new System.Drawing.Point(578, 10);
             this.dwName28.Name = "dwName28";
             this.dwName28.Size = new System.Drawing.Size(75, 20);
             this.dwName28.TabIndex = 7;
@@ -2121,7 +2121,7 @@
             this.pcName28.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pcName28.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pcName28.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.pcName28.Location = new System.Drawing.Point(532, 11);
+            this.pcName28.Location = new System.Drawing.Point(532, 12);
             this.pcName28.Name = "pcName28";
             this.pcName28.Size = new System.Drawing.Size(37, 16);
             this.pcName28.TabIndex = 6;
@@ -2133,7 +2133,7 @@
             this.lcName28.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lcName28.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lcName28.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lcName28.Location = new System.Drawing.Point(392, 12);
+            this.lcName28.Location = new System.Drawing.Point(392, 13);
             this.lcName28.Name = "lcName28";
             this.lcName28.Size = new System.Drawing.Size(73, 14);
             this.lcName28.TabIndex = 5;
@@ -2144,7 +2144,7 @@
             this.lblWP28.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblWP28.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWP28.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.lblWP28.Location = new System.Drawing.Point(168, 9);
+            this.lblWP28.Location = new System.Drawing.Point(168, 10);
             this.lblWP28.Name = "lblWP28";
             this.lblWP28.Size = new System.Drawing.Size(48, 20);
             this.lblWP28.TabIndex = 2;
@@ -2156,7 +2156,7 @@
             this.dcName28.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dcName28.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dcName28.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.dcName28.Location = new System.Drawing.Point(25, 11);
+            this.dcName28.Location = new System.Drawing.Point(25, 12);
             this.dcName28.Name = "dcName28";
             this.dcName28.Size = new System.Drawing.Size(32, 16);
             this.dcName28.TabIndex = 1;
@@ -2176,7 +2176,7 @@
             this.tableLayoutPanel44.Name = "tableLayoutPanel44";
             this.tableLayoutPanel44.RowCount = 1;
             this.tableLayoutPanel44.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel44.Size = new System.Drawing.Size(64, 37);
+            this.tableLayoutPanel44.Size = new System.Drawing.Size(64, 38);
             this.tableLayoutPanel44.TabIndex = 74;
             // 
             // shortB28
@@ -2187,7 +2187,7 @@
             this.shortB28.Location = new System.Drawing.Point(32, 0);
             this.shortB28.Margin = new System.Windows.Forms.Padding(0);
             this.shortB28.Name = "shortB28";
-            this.shortB28.Size = new System.Drawing.Size(32, 37);
+            this.shortB28.Size = new System.Drawing.Size(32, 38);
             this.shortB28.TabIndex = 21;
             this.shortB28.Text = "12";
             this.shortB28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2200,7 +2200,7 @@
             this.shortA28.Location = new System.Drawing.Point(0, 0);
             this.shortA28.Margin = new System.Windows.Forms.Padding(0);
             this.shortA28.Name = "shortA28";
-            this.shortA28.Size = new System.Drawing.Size(32, 37);
+            this.shortA28.Size = new System.Drawing.Size(32, 38);
             this.shortA28.TabIndex = 20;
             this.shortA28.Text = "34";
             this.shortA28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -4752,7 +4752,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 20);
             this.label5.TabIndex = 3;
-            this.label5.Text = "短观";
+            this.label5.Text = "势值";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label6
@@ -4766,7 +4766,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 20);
             this.label6.TabIndex = 4;
-            this.label6.Text = "长观";
+            this.label6.Text = "风向";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
@@ -6920,6 +6920,66 @@
             this.pnlZoushi.Size = new System.Drawing.Size(811, 250);
             this.pnlZoushi.TabIndex = 1;
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.ForeColor = System.Drawing.Color.DarkGray;
+            this.label20.Location = new System.Drawing.Point(770, 47);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(17, 12);
+            this.label20.TabIndex = 21;
+            this.label20.Text = "90";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.ForeColor = System.Drawing.Color.DarkGray;
+            this.label21.Location = new System.Drawing.Point(769, 127);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(17, 12);
+            this.label21.TabIndex = 20;
+            this.label21.Text = "50";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.ForeColor = System.Drawing.Color.DarkGray;
+            this.label22.Location = new System.Drawing.Point(769, 87);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(17, 12);
+            this.label22.TabIndex = 19;
+            this.label22.Text = "70";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.ForeColor = System.Drawing.Color.DarkGray;
+            this.label19.Location = new System.Drawing.Point(361, 46);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(17, 12);
+            this.label19.TabIndex = 18;
+            this.label19.Text = "90";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.Color.DarkGray;
+            this.label18.Location = new System.Drawing.Point(361, 127);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(17, 12);
+            this.label18.TabIndex = 17;
+            this.label18.Text = "50";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.DarkGray;
+            this.label1.Location = new System.Drawing.Point(361, 87);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(17, 12);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "70";
+            // 
             // lblZSTimeB2
             // 
             this.lblZSTimeB2.AutoSize = true;
@@ -7464,66 +7524,6 @@
             // 
             this.timerCountDown.Enabled = true;
             this.timerCountDown.Tick += new System.EventHandler(this.timerCountDown_Tick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.DarkGray;
-            this.label1.Location = new System.Drawing.Point(361, 87);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 12);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "70";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.ForeColor = System.Drawing.Color.DarkGray;
-            this.label18.Location = new System.Drawing.Point(361, 127);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(17, 12);
-            this.label18.TabIndex = 17;
-            this.label18.Text = "50";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.ForeColor = System.Drawing.Color.DarkGray;
-            this.label19.Location = new System.Drawing.Point(361, 46);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(17, 12);
-            this.label19.TabIndex = 18;
-            this.label19.Text = "90";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.ForeColor = System.Drawing.Color.DarkGray;
-            this.label20.Location = new System.Drawing.Point(770, 47);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(17, 12);
-            this.label20.TabIndex = 21;
-            this.label20.Text = "90";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.ForeColor = System.Drawing.Color.DarkGray;
-            this.label21.Location = new System.Drawing.Point(769, 127);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(17, 12);
-            this.label21.TabIndex = 20;
-            this.label21.Text = "50";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.ForeColor = System.Drawing.Color.DarkGray;
-            this.label22.Location = new System.Drawing.Point(769, 87);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(17, 12);
-            this.label22.TabIndex = 19;
-            this.label22.Text = "70";
             // 
             // MainUI
             // 

@@ -505,7 +505,7 @@
             this.groupBox3.Size = new System.Drawing.Size(292, 162);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "短观栏 - 非常态条件";
+            this.groupBox3.Text = "势值栏 - 非常态条件";
             // 
             // btnShortFinish
             // 
