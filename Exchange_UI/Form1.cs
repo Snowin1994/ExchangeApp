@@ -62,6 +62,10 @@ namespace Exchange_UI
 
         private void SetupInit()
         {
+            
+
+            Setup.linePosOldName = AllSettings.Default.linePosOldName;
+
             Setup.countDownLess = AllSettings.Default.countDownLess;
             Setup.countDownAgain = AllSettings.Default.countDownAgain;
             Setup.timeHourDiff = AllSettings.Default.timeHourDiff;
@@ -101,7 +105,9 @@ namespace Exchange_UI
             Setup.gIsUseSound = AllSettings.Default.gIsUseSound;
             #endregion
 
-            #region 短观值非常态设置
+            #region 势值非常态设置
+            Setup.sNormalRG = AllSettings.Default.sNormalRG;
+            Setup.sNormalGG = AllSettings.Default.sNormalGG;
             Setup.sIsGreenAndRed = AllSettings.Default.sIsGreenAndRed;
             Setup.sWithoutNum1 = AllSettings.Default.sWithoutNum1;
             Setup.sWithoutNum2 = AllSettings.Default.sWithoutNum2;
@@ -113,6 +119,10 @@ namespace Exchange_UI
             Setup.pathTemp = AllSettings.Default.pathTemp;
 
             #region 走势图 信号灯设置
+
+            Setup.signLightRY = AllSettings.Default.signLightRY;
+            Setup.signLightYG = AllSettings.Default.signLightYG;
+
             Setup.sZSRed[0] = AllSettings.Default.sZSRed0;
             Setup.sZSRed[1] = AllSettings.Default.sZSRed1;
             Setup.sZSRed[2] = AllSettings.Default.sZSRed2;
@@ -230,20 +240,7 @@ namespace Exchange_UI
         }
         public void setFormText(string s,System.Windows.Forms.Form FM)
         {
-            try
-            {
-                FM.Text = s;
-                //sp.SoundLocation = @".\jingbao.wav";
-                //sp.Play();
-                //Thread.Sleep(2000);
-                //sp.Stop();
-            }
-            catch(Exception ex)
-            {
-                //BasicData.mainUI.Invoke(BasicData.mainUI.ShowFormText, new object[] { 
-                //    DataFiler.basicFormText + "*未找到音效文件*",
-                //    BasicData.mainUI });
-            }
+            FM.Text = s;
         }
         public void setLabelFont(Font f, System.Windows.Forms.Label LB)
         {
@@ -290,6 +287,8 @@ namespace Exchange_UI
         /// </summary>
         private void SettingSave()
         {
+            AllSettings.Default.linePosOldName = Setup.linePosOldName;
+
             AllSettings.Default.countDownLess = Setup.countDownLess;
             AllSettings.Default.countDownAgain = Setup.countDownAgain;
             AllSettings.Default.timeHourDiff = Setup.timeHourDiff;
@@ -323,7 +322,9 @@ namespace Exchange_UI
             AllSettings.Default.gIsUseSound = Setup.gIsUseSound;
             #endregion
 
-            #region 短观值非常态设置
+            #region 势值非常态设置
+            AllSettings.Default.sNormalRG = Setup.sNormalRG;
+            AllSettings.Default.sNormalGG = Setup.sNormalGG;
             AllSettings.Default.sIsGreenAndRed = Setup.sIsGreenAndRed;
             AllSettings.Default.sWithoutNum1 = Setup.sWithoutNum1;
             AllSettings.Default.sWithoutNum2 = Setup.sWithoutNum2;
@@ -340,7 +341,12 @@ namespace Exchange_UI
 
             AllSettings.Default.pathTemp = Setup.pathTemp;
 
-            #region 走势图 信号灯设置
+            #region 信号灯设置
+
+            AllSettings.Default.signLightRY = Setup.signLightRY;
+            AllSettings.Default.signLightYG = Setup.signLightYG;
+
+
             AllSettings.Default.sZSRed0 = Setup.sZSRed[0];
             AllSettings.Default.sZSRed1 = Setup.sZSRed[1];
             AllSettings.Default.sZSRed2 = Setup.sZSRed[2];
@@ -455,7 +461,6 @@ namespace Exchange_UI
 
             MyTime.nowTime = new MyTime(0,DateTime.Now.Hour, DateTime.Now.Minute);
 
-
             #region 倒计时闪烁
             if(isEnabled)
             {
@@ -533,8 +538,8 @@ namespace Exchange_UI
         {
             DataShow drawS = new DataShow();
             drawS.UpLine();
-            drawS.ToLong();
-            drawS.ToOutMark();
+            //drawS.ToLong();
+            //drawS.ToOutMark();
             drawS.IsLocHaveData();
             drawS.UpFXTMoneyNameColor();
 
@@ -546,7 +551,13 @@ namespace Exchange_UI
             if(DataShow.linePosLast == watchNum)
             {
                 watchNum = DataShow.linePos;
+
+                drawS.ToLong();
+                drawS.ToOutMark();
+
                 drawS.ToZoushitu();
+
+                drawS.ToDoubleZoushitu();
                 drawS.ToFengxiangtu();
             }
 
@@ -572,8 +583,7 @@ namespace Exchange_UI
 
         private void lblDateTime_Click(object sender, EventArgs e)
         {
-            FMSetup setup = new FMSetup();
-            setup.Show();
+            //new FMSetup().Show();
         }
 
 
@@ -590,6 +600,9 @@ namespace Exchange_UI
             dataShow.ToRixingtu();
             dataShow.ToFengxiangtu();
             dataShow.ToZoushitu();
+            dataShow.ToSignLight();
+            dataShow.ToSignZoushitu();
+            dataShow.ToDoubleZoushitu();
             //dataShow.ToTime();
 
             //dataFiler.PPP();
@@ -609,9 +622,10 @@ namespace Exchange_UI
             dataShow.ToRixingtu();
             dataShow.ToFengxiangtu();
             dataShow.ToZoushitu();
+            dataShow.ToSignZoushitu();
+            dataShow.ToDoubleZoushitu();
             dataShow.ToSignLight();
             dataShow.UpCirMark();
-            dataShow.ToOutMark();
         }
 
         private void MainUI_TextChanged(object sender, EventArgs e)
@@ -1028,1050 +1042,6 @@ namespace Exchange_UI
         }
         #endregion
 
-        #region 【删除】 - 表格 短观栏 颜色与字体变化
-
-        ///// <summary>
-        ///// 判断货币对的短观值的状态 常态与非常态
-        ///// </summary>
-        ///// <param name="mBoth">货币对 对象</param>
-        ///// <returns>是与否</returns>
-        //private bool IsSuperState( MoneyBoth mBoth )
-        //{
-        //    if(Setup.sIsGreenAndRed)
-        //    {
-        //        if (mBoth.moneyA.Color == mBoth.MoneyB.Color)
-        //            return false;
-        //    }
-        //    if (mBoth.moneyA.Order == Setup.sWithoutNum1 ||
-        //        mBoth.moneyA.Order == Setup.sWithoutNum2 ||
-        //        mBoth.MoneyB.Order == Setup.sWithoutNum1 ||
-        //        mBoth.MoneyB.Order == Setup.sWithoutNum2
-        //        )
-        //        return false;
-        //    if (mBoth.moneyA.Order + mBoth.MoneyB.Order >= Setup.sOrderSumLess)
-        //        return false;
-        //    if (mBoth.moneyA.ShortM <= Setup.sShortAllMore ||
-        //        mBoth.MoneyB.ShortM <= Setup.sShortAllMore
-        //        )
-        //        return false;
-        //    if (mBoth.moneyA.LongM + mBoth.MoneyB.LongM <= Setup.sLongSumMore)
-        //        return false;
-        //    mBoth.ShortState = 1;
-        //    DataShow.doubleSuperNum++;
-        //    mBoth.DoubleGreen = true;
-        //    return true;
-        //}
-
-        //private void shortA1_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[0].allMoneyBoth[0]))
-        //    {
-        //        shortA1.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA1.BackColor = Color.Green;
-        //        shortA1.ForeColor = Color.Black;
-        //        shortB1.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB1.BackColor = Color.Green;
-        //        shortB1.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA1.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA1.BackColor = tlpTable1.BackColor;
-        //        shortB1.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB1.BackColor = tlpTable1.BackColor;
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[0].moneyA.ShortM > 0)
-        //        {
-        //            shortA1.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA1.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[0].MoneyB.ShortM > 0)
-        //        {
-        //            shortB1.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB1.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-        //private void shortA2_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[0].allMoneyBoth[1]))
-        //    {
-        //        shortA2.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA2.BackColor = Color.Green;
-        //        shortA2.ForeColor = Color.Black;
-        //        shortB2.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB2.BackColor = Color.Green;
-        //        shortB2.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA2.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA2.BackColor = tlpTable1.BackColor;
-        //        shortB2.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB2.BackColor = tlpTable1.BackColor;
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[1].moneyA.ShortM > 0)
-        //        {
-        //            shortA2.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA2.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[1].MoneyB.ShortM > 0)
-        //        {
-        //            shortB2.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB2.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA3_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[0].allMoneyBoth[2]))
-        //    {
-        //        shortA3.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA3.BackColor = Color.Green;
-        //        shortA3.ForeColor = Color.Black;
-        //        shortB3.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB3.BackColor = Color.Green;
-        //        shortB3.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA3.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA3.BackColor = tlpTable1.BackColor;
-        //        shortB3.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB3.BackColor = tlpTable1.BackColor;
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[2].moneyA.ShortM > 0)
-        //        {
-        //            shortA3.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA3.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[2].MoneyB.ShortM > 0)
-        //        {
-        //            shortB3.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB3.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA4_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[0].allMoneyBoth[3]))
-        //    {
-        //        shortA4.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA4.BackColor = Color.Green;
-        //        shortA4.ForeColor = Color.Black;
-        //        shortB4.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB4.BackColor = Color.Green;
-        //        shortB4.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA4.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA4.BackColor = tlpTable1.BackColor;
-        //        shortB4.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB4.BackColor = tlpTable1.BackColor;
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[3].moneyA.ShortM > 0)
-        //        {
-        //            shortA4.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA4.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[3].MoneyB.ShortM > 0)
-        //        {
-        //            shortB4.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB4.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA5_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[0].allMoneyBoth[4]))
-        //    {
-        //        shortA5.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA5.BackColor = Color.Green;
-        //        shortA5.ForeColor = Color.Black;
-        //        shortB5.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB5.BackColor = Color.Green;
-        //        shortB5.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA5.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA5.BackColor = tlpTable1.BackColor;
-        //        shortB5.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB5.BackColor = tlpTable1.BackColor;
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[4].moneyA.ShortM > 0)
-        //        {
-        //            shortA5.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA5.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[4].MoneyB.ShortM > 0)
-        //        {
-        //            shortB5.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB5.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA6_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[0].allMoneyBoth[5]))
-        //    {
-        //        shortA6.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA6.BackColor = Color.Green;
-        //        shortA6.ForeColor = Color.Black;
-        //        shortB6.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB6.BackColor = Color.Green;
-        //        shortB6.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA6.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA6.BackColor = tlpTable1.BackColor;
-        //        shortB6.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB6.BackColor = tlpTable1.BackColor;
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[5].moneyA.ShortM > 0)
-        //        {
-        //            shortA6.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA6.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[5].MoneyB.ShortM > 0)
-        //        {
-        //            shortB6.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB6.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA7_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[0].allMoneyBoth[6]))
-        //    {
-        //        shortA7.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA7.BackColor = Color.Green;
-        //        shortA7.ForeColor = Color.Black;
-        //        shortB7.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB7.BackColor = Color.Green;
-        //        shortB7.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA7.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA7.BackColor = tlpTable1.BackColor;
-        //        shortB7.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB7.BackColor = tlpTable1.BackColor;
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[6].moneyA.ShortM > 0)
-        //        {
-        //            shortA7.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA7.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[0].allMoneyBoth[6].MoneyB.ShortM > 0)
-        //        {
-        //            shortB7.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB7.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA8_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[1].allMoneyBoth[0]))
-        //    {
-        //        shortA8.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA8.BackColor = Color.Green;
-        //        shortA8.ForeColor = Color.Black;
-        //        shortB8.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB8.BackColor = Color.Green;
-        //        shortB8.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA8.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA8.BackColor = tlpTable2.BackColor;
-        //        shortB8.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB8.BackColor = tlpTable2.BackColor;
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[0].moneyA.ShortM > 0)
-        //        {
-        //            shortA8.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA8.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[0].MoneyB.ShortM > 0)
-        //        {
-        //            shortB8.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB8.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA9_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[1].allMoneyBoth[1]))
-        //    {
-        //        shortA9.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA9.BackColor = Color.Green;
-        //        shortA9.ForeColor = Color.Black;
-        //        shortB9.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB9.BackColor = Color.Green;
-        //        shortB9.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA9.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA9.BackColor = tlpTable2.BackColor;
-        //        shortB9.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB9.BackColor = tlpTable2.BackColor;
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[1].moneyA.ShortM > 0)
-        //        {
-        //            shortA9.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA9.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[1].MoneyB.ShortM > 0)
-        //        {
-        //            shortB9.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB9.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA10_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[1].allMoneyBoth[2]))
-        //    {
-        //        shortA10.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA10.BackColor = Color.Green;
-        //        shortA10.ForeColor = Color.Black;
-        //        shortB10.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB10.BackColor = Color.Green;
-        //        shortB10.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA10.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA10.BackColor = tlpTable2.BackColor;
-        //        shortB10.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB10.BackColor = tlpTable2.BackColor;
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[2].moneyA.ShortM > 0)
-        //        {
-        //            shortA10.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA10.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[2].MoneyB.ShortM > 0)
-        //        {
-        //            shortB10.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB10.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA11_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[1].allMoneyBoth[3]))
-        //    {
-        //        shortA11.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA11.BackColor = Color.Green;
-        //        shortA11.ForeColor = Color.Black;
-        //        shortB11.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB11.BackColor = Color.Green;
-        //        shortB11.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA11.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA11.BackColor = tlpTable2.BackColor;
-        //        shortB11.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB11.BackColor = tlpTable2.BackColor;
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[3].moneyA.ShortM > 0)
-        //        {
-        //            shortA11.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA11.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[3].MoneyB.ShortM > 0)
-        //        {
-        //            shortB11.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB11.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA12_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[1].allMoneyBoth[4]))
-        //    {
-        //        shortA12.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA12.BackColor = Color.Green;
-        //        shortA12.ForeColor = Color.Black;
-        //        shortB12.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB12.BackColor = Color.Green;
-        //        shortB12.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA12.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA12.BackColor = tlpTable2.BackColor;
-        //        shortB12.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB12.BackColor = tlpTable2.BackColor;
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[4].moneyA.ShortM > 0)
-        //        {
-        //            shortA12.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA12.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[4].MoneyB.ShortM > 0)
-        //        {
-        //            shortB12.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB12.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA13_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[1].allMoneyBoth[5]))
-        //    {
-        //        shortA13.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA13.BackColor = Color.Green;
-        //        shortA13.ForeColor = Color.Black;
-        //        shortB13.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB13.BackColor = Color.Green;
-        //        shortB13.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA13.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA13.BackColor = tlpTable2.BackColor;
-        //        shortB13.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB13.BackColor = tlpTable2.BackColor;
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[5].moneyA.ShortM > 0)
-        //        {
-        //            shortA13.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA13.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[1].allMoneyBoth[5].MoneyB.ShortM > 0)
-        //        {
-        //            shortB13.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB13.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        ////3-1
-        //private void shortA14_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[2].allMoneyBoth[0]))
-        //    {
-        //        shortA14.Font = new Font("Arial", 12, FontStyle.Regular);
-        //        shortA14.BackColor = Color.Green;
-        //        shortA14.ForeColor = Color.Black;
-        //        shortB14.Font = new Font("Arial", 12, FontStyle.Regular);
-        //        shortB14.BackColor = Color.Green;
-        //        shortB14.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA14.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA14.BackColor = tlpTable3.BackColor;
-        //        shortB14.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB14.BackColor = tlpTable3.BackColor;
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[0].moneyA.ShortM > 0)
-        //        {
-        //            shortA14.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA14.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[0].MoneyB.ShortM > 0)
-        //        {
-        //            shortB14.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB14.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA15_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[2].allMoneyBoth[1]))
-        //    {
-        //        shortA15.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA15.BackColor = Color.Green;
-        //        shortA15.ForeColor = Color.Black;
-        //        shortB15.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB15.BackColor = Color.Green;
-        //        shortB15.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA15.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA15.BackColor = tlpTable3.BackColor;
-        //        shortB15.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB15.BackColor = tlpTable3.BackColor;
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[1].moneyA.ShortM > 0)
-        //        {
-        //            shortA15.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA15.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[1].MoneyB.ShortM > 0)
-        //        {
-        //            shortB15.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB15.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA16_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[2].allMoneyBoth[2]))
-        //    {
-        //        shortA16.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA16.BackColor = Color.Green;
-        //        shortA16.ForeColor = Color.Black;
-        //        shortB16.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB16.BackColor = Color.Green;
-        //        shortB16.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA16.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA16.BackColor = tlpTable3.BackColor;
-        //        shortB16.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB16.BackColor = tlpTable3.BackColor;
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[2].moneyA.ShortM > 0)
-        //        {
-        //            shortA16.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA16.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[2].MoneyB.ShortM > 0)
-        //        {
-        //            shortB16.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB16.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA17_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[2].allMoneyBoth[3]))
-        //    {
-        //        shortA17.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA17.BackColor = Color.Green;
-        //        shortA17.ForeColor = Color.Black;
-        //        shortB17.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB17.BackColor = Color.Green;
-        //        shortB17.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA17.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA17.BackColor = tlpTable3.BackColor;
-        //        shortB17.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB17.BackColor = tlpTable3.BackColor;
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[3].moneyA.ShortM > 0)
-        //        {
-        //            shortA17.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA17.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[3].MoneyB.ShortM > 0)
-        //        {
-        //            shortB17.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB17.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA18_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[2].allMoneyBoth[4]))
-        //    {
-        //        shortA18.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA18.BackColor = Color.Green;
-        //        shortA18.ForeColor = Color.Black;
-        //        shortB18.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB18.BackColor = Color.Green;
-        //        shortB18.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA18.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA18.BackColor = tlpTable3.BackColor;
-        //        shortB18.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB18.BackColor = tlpTable3.BackColor;
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[4].moneyA.ShortM > 0)
-        //        {
-        //            shortA18.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA18.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[2].allMoneyBoth[4].MoneyB.ShortM > 0)
-        //        {
-        //            shortB18.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB18.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA19_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[3].allMoneyBoth[0]))
-        //    {
-        //        shortA19.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA19.BackColor = Color.Green;
-        //        shortA19.ForeColor = Color.Black;
-        //        shortB19.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB19.BackColor = Color.Green;
-        //        shortB19.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA19.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA19.BackColor = tlpTable4.BackColor;
-        //        shortB19.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB19.BackColor = tlpTable4.BackColor;
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[0].moneyA.ShortM > 0)
-        //        {
-        //            shortA19.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA19.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[0].MoneyB.ShortM > 0)
-        //        {
-        //            shortB19.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB19.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA20_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[3].allMoneyBoth[1]))
-        //    {
-        //        shortA20.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA20.BackColor = Color.Green;
-        //        shortA20.ForeColor = Color.Black;
-        //        shortB20.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB20.BackColor = Color.Green;
-        //        shortB20.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA20.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA20.BackColor = tlpTable4.BackColor;
-        //        shortB20.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB20.BackColor = tlpTable4.BackColor;
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[1].moneyA.ShortM > 0)
-        //        {
-        //            shortA20.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA20.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[1].MoneyB.ShortM > 0)
-        //        {
-        //            shortB20.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB20.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA21_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[3].allMoneyBoth[2]))
-        //    {
-        //        shortA21.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA21.BackColor = Color.Green;
-        //        shortA21.ForeColor = Color.Black;
-        //        shortB21.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB21.BackColor = Color.Green;
-        //        shortB21.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA21.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA21.BackColor = tlpTable4.BackColor;
-        //        shortB21.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB21.BackColor = tlpTable4.BackColor;
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[2].moneyA.ShortM > 0)
-        //        {
-        //            shortA21.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA21.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[2].MoneyB.ShortM > 0)
-        //        {
-        //            shortB21.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB21.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA22_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[3].allMoneyBoth[3]))
-        //    {
-        //        shortA22.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA22.BackColor = Color.Green;
-        //        shortA22.ForeColor = Color.Black;
-        //        shortB22.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB22.BackColor = Color.Green;
-        //        shortB22.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA22.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA22.BackColor = tlpTable4.BackColor;
-        //        shortB22.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB22.BackColor = tlpTable4.BackColor;
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[3].moneyA.ShortM > 0)
-        //        {
-        //            shortA22.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA22.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[3].allMoneyBoth[3].MoneyB.ShortM > 0)
-        //        {
-        //            shortB22.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB22.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-        //// -1
-        //private void shortA23_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[4].allMoneyBoth[0]))
-        //    {
-        //        shortA23.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA23.BackColor = Color.Green;
-        //        shortA23.ForeColor = Color.Black;
-        //        shortB23.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB23.BackColor = Color.Green;
-        //        shortB23.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA23.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA23.BackColor = tlpTable5.BackColor;
-        //        shortB23.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB23.BackColor = tlpTable5.BackColor;
-        //        if (DataFiler.basicMoneyGroup[4].allMoneyBoth[0].moneyA.ShortM > 0)
-        //        {
-        //            shortA23.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA23.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[4].allMoneyBoth[0].MoneyB.ShortM > 0)
-        //        {
-        //            shortB23.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB23.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA24_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[4].allMoneyBoth[1]))
-        //    {
-        //        shortA24.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA24.BackColor = Color.Green;
-        //        shortA24.ForeColor = Color.Black;
-        //        shortB24.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB24.BackColor = Color.Green;
-        //        shortB24.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA24.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA24.BackColor = tlpTable5.BackColor;
-        //        shortB24.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB24.BackColor = tlpTable5.BackColor;
-        //        if (DataFiler.basicMoneyGroup[4].allMoneyBoth[1].moneyA.ShortM > 0)
-        //        {
-        //            shortA24.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA24.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[4].allMoneyBoth[1].MoneyB.ShortM > 0)
-        //        {
-        //            shortB24.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB24.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA25_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[4].allMoneyBoth[2]))
-        //    {
-        //        shortA25.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA25.BackColor = Color.Green;
-        //        shortA25.ForeColor = Color.Black;
-        //        shortB25.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB25.BackColor = Color.Green;
-        //        shortB25.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA25.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA25.BackColor = tlpTable5.BackColor;
-        //        shortB25.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB25.BackColor = tlpTable5.BackColor;
-        //        if (DataFiler.basicMoneyGroup[4].allMoneyBoth[2].moneyA.ShortM > 0)
-        //        {
-        //            shortA25.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA25.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[4].allMoneyBoth[2].MoneyB.ShortM > 0)
-        //        {
-        //            shortB25.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB25.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA26_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[5].allMoneyBoth[0]))
-        //    {
-        //        shortA26.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA26.BackColor = Color.Green;
-        //        shortA26.ForeColor = Color.Black;
-        //        shortB26.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB26.BackColor = Color.Green;
-        //        shortB26.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA26.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA26.BackColor = tlpTable6.BackColor;
-        //        shortB26.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB26.BackColor = tlpTable6.BackColor;
-        //        if (DataFiler.basicMoneyGroup[5].allMoneyBoth[0].moneyA.ShortM > 0)
-        //        {
-        //            shortA26.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA26.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[5].allMoneyBoth[0].MoneyB.ShortM > 0)
-        //        {
-        //            shortB26.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB26.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA27_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[5].allMoneyBoth[1]))
-        //    {
-        //        shortA27.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA27.BackColor = Color.Green;
-        //        shortA27.ForeColor = Color.Black;
-        //        shortB27.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB27.BackColor = Color.Green;
-        //        shortB27.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA27.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA27.BackColor = tlpTable6.BackColor;
-        //        shortB27.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB27.BackColor = tlpTable6.BackColor;
-        //        if (DataFiler.basicMoneyGroup[5].allMoneyBoth[1].moneyA.ShortM > 0)
-        //        {
-        //            shortA27.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA27.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[5].allMoneyBoth[1].MoneyB.ShortM > 0)
-        //        {
-        //            shortB27.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB27.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        //private void shortA28_TextChanged(object sender, EventArgs e)
-        //{
-        //    if (IsSuperState(DataFiler.basicMoneyGroup[6].allMoneyBoth[0]))
-        //    {
-        //        shortA28.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortA28.BackColor = Color.Green;
-        //        shortA28.ForeColor = Color.Black;
-        //        shortB28.Font = new Font("黑体", 12, FontStyle.Regular);
-        //        shortB28.BackColor = Color.Green;
-        //        shortB28.ForeColor = Color.Black;
-        //    }
-        //    else
-        //    {
-        //        shortA28.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortA28.BackColor = tlpTable7.BackColor;
-        //        shortB28.Font = new Font("Arial", 10, FontStyle.Bold);
-        //        shortB28.BackColor = tlpTable7.BackColor;
-        //        if (DataFiler.basicMoneyGroup[6].allMoneyBoth[0].moneyA.ShortM > 0)
-        //        {
-        //            shortA28.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortA28.ForeColor = Color.Red;
-        //        }
-        //        if (DataFiler.basicMoneyGroup[6].allMoneyBoth[0].MoneyB.ShortM > 0)
-        //        {
-        //            shortB28.ForeColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            shortB28.ForeColor = Color.Red;
-        //        }
-        //    }
-        //}
-
-        #endregion
-
         #region 点击货币对触发事件
 
         //1.1-7
@@ -2079,89 +1049,99 @@ namespace Exchange_UI
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 1;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[0].Clone();
-
-            //Date
-
-
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB1_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 1;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName2_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 2;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB2_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 2;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName3_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 3;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB3_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 3;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName4_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 4;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB4_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 4;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName5_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 5;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[4].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[4];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB5_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 5;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[4].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[4];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName6_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 6;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[5].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[5];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB6_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 6;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[5].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[5];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName7_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 7;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[6].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[6];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB7_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 7;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[0].allMoneyBoth[6].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[0].allMoneyBoth[6];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
 
         //2.1-6
@@ -2169,73 +1149,85 @@ namespace Exchange_UI
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 8;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB8_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 8;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName9_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 9;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB9_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 9;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName10_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 10;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB10_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 10;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName11_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 11;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB11_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 11;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName12_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 12;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[4].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[4];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB12_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 12;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[4].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[4];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName13_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 13;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[5].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[5];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB13_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 13;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[1].allMoneyBoth[5].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[1].allMoneyBoth[5];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
 
         //3.1-5
@@ -2243,61 +1235,71 @@ namespace Exchange_UI
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 14;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB14_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 14;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName15_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 15;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB15_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 15;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName16_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 16;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB16_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 16;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName17_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 17;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB17_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 17;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName18_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 18;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[4].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[4];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB18_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 18;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[2].allMoneyBoth[4].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[2].allMoneyBoth[4];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
 
         //4.1-4
@@ -2305,49 +1307,57 @@ namespace Exchange_UI
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 19;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB19_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 19;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName20_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 20;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB20_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 20;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName21_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 21;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB21_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 21;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName22_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 22;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB22_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 22;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[3].allMoneyBoth[3].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[3].allMoneyBoth[3];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
 
         //5.1-3
@@ -2355,37 +1365,43 @@ namespace Exchange_UI
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 23;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[4].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[4].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB23_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 23;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[4].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[4].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName24_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 24;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[4].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[4].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB24_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 24;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[4].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[4].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName25_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 25;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[4].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[4].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB25_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 25;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[4].allMoneyBoth[2].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[4].allMoneyBoth[2];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
 
         //6.1-2
@@ -2393,25 +1409,29 @@ namespace Exchange_UI
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 26;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[5].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[5].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB26_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 26;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[5].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[5].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void mbName27_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 27;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[5].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[5].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB27_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 27;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[5].allMoneyBoth[1].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[5].allMoneyBoth[1];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
 
         //7.1-1
@@ -2419,13 +1439,15 @@ namespace Exchange_UI
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 28;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[6].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[6].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
         private void lblMB28_Click(object sender, EventArgs e)
         {
             DataShow.linePosLast = DataShow.linePos;
             DataShow.linePos = 28;
-            BasicData.zoushi_MBoth = (MoneyBoth)DataFiler.basicMoneyGroup[6].allMoneyBoth[0].Clone();
+            BasicData.zoushi_MBoth = DataFiler.basicMoneyGroup[6].allMoneyBoth[0];
+            Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
         }
 
         #endregion
@@ -3437,6 +2459,48 @@ namespace Exchange_UI
         }
         #endregion
 
+        #region 单击中轴部分 倒计时区域 设置中心
+        private void lblZT1_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+
+        private void lblZT2_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+
+        private void lblZT3_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+
+        private void lblZT4_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+
+        private void lblZT5_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+
+        private void lblZT6_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+
+        private void lblZT7_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+
+        private void lblZT8_Click(object sender, EventArgs e)
+        {
+            new FMSetup().Show();
+        }
+        #endregion
+
         /// <summary>
         /// 根据两个货币的名称找到货币对所在的行数，并将货币赋值到相应的走势图变量上
         /// </summary>
@@ -3478,6 +2542,7 @@ namespace Exchange_UI
             }
             return line + i + 1;
         }
+
 
 
     }

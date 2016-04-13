@@ -31,6 +31,8 @@ namespace Exchange_UI
             cbxTimeDiff.Text = Setup.timeHourDiff.ToString();
 
             //短观值非常态初始化
+            comboBox9.Text = Setup.sNormalRG.ToString();
+            comboBox8.Text = Setup.sNormalGG.ToString();
             checkBox2.Checked = Setup.sIsGreenAndRed;
             comboBox18.Text = Setup.sWithoutNum1.ToString();
             comboBox17.Text = Setup.sWithoutNum2.ToString();
@@ -72,10 +74,8 @@ namespace Exchange_UI
             comboBox4.Text = Setup.gWithoutOrder2.ToString();
             comboBox5.Text = Setup.gOrderSumLess.ToString();
             comboBox6.Text = Setup.gShortBothMore.ToString();
-            comboBox7.Text = Setup.gLongSumMore.ToString();
 
 
-            comboBox7.Text = Setup.gPChangeOrderNum.ToString();
             checkBox15.Checked = Setup.gIsUseSound;
             
             //GGG文件写入条件
@@ -87,33 +87,37 @@ namespace Exchange_UI
             comboBox24.Text = Setup.zoushiRed.ToString();
 
             #region 红黄绿 初始化
-                //红灯
-            checkBox8.Checked = IntToBool(Setup.sZSRed[0]);
-            checkBox9.Checked = IntToBool(Setup.sZSRed[1]);
-            checkBox10.Checked = IntToBool(Setup.sZSRed[2]);
-            checkBox11.Checked = IntToBool(Setup.sZSRed[3]);
-            checkBox12.Checked = IntToBool(Setup.sZSRed[4]);
-            checkBox13.Checked = IntToBool(Setup.sZSRed[5]);
-            checkBox14.Checked = IntToBool(Setup.sZSRed[6]);
-            checkBox16.Checked = Setup.sZIsUpRed;
-                //黄灯
-            checkBox25.Checked = IntToBool(Setup.sZSYellow[0]);
-            checkBox24.Checked = IntToBool(Setup.sZSYellow[1]);
-            checkBox23.Checked = IntToBool(Setup.sZSYellow[2]);
-            checkBox22.Checked = IntToBool(Setup.sZSYellow[3]);
-            checkBox21.Checked = IntToBool(Setup.sZSYellow[4]);
-            checkBox20.Checked = IntToBool(Setup.sZSYellow[5]);
-            checkBox19.Checked = IntToBool(Setup.sZSYellow[6]);
 
-                //绿灯
-            checkBox34.Checked = IntToBool(Setup.sZSGreen[0]);
-            checkBox33.Checked = IntToBool(Setup.sZSGreen[1]);
-            checkBox32.Checked = IntToBool(Setup.sZSGreen[2]);
-            checkBox31.Checked = IntToBool(Setup.sZSGreen[3]);
-            checkBox30.Checked = IntToBool(Setup.sZSGreen[4]);
-            checkBox29.Checked = IntToBool(Setup.sZSGreen[5]);
-            checkBox28.Checked = IntToBool(Setup.sZSGreen[6]);
-            checkBox26.Checked = Setup.sZIsUpGreen;
+            comboBox7.Text = Setup.signLightRY.ToString();
+            comboBox21.Text = Setup.signLightYG.ToString();
+
+            //    //红灯
+            //checkBox8.Checked = IntToBool(Setup.sZSRed[0]);
+            //checkBox9.Checked = IntToBool(Setup.sZSRed[1]);
+            //checkBox10.Checked = IntToBool(Setup.sZSRed[2]);
+            //checkBox11.Checked = IntToBool(Setup.sZSRed[3]);
+            //checkBox12.Checked = IntToBool(Setup.sZSRed[4]);
+            //checkBox13.Checked = IntToBool(Setup.sZSRed[5]);
+            //checkBox14.Checked = IntToBool(Setup.sZSRed[6]);
+            //checkBox16.Checked = Setup.sZIsUpRed;
+            //    //黄灯
+            //checkBox25.Checked = IntToBool(Setup.sZSYellow[0]);
+            //checkBox24.Checked = IntToBool(Setup.sZSYellow[1]);
+            //checkBox23.Checked = IntToBool(Setup.sZSYellow[2]);
+            //checkBox22.Checked = IntToBool(Setup.sZSYellow[3]);
+            //checkBox21.Checked = IntToBool(Setup.sZSYellow[4]);
+            //checkBox20.Checked = IntToBool(Setup.sZSYellow[5]);
+            //checkBox19.Checked = IntToBool(Setup.sZSYellow[6]);
+
+            //    //绿灯
+            //checkBox34.Checked = IntToBool(Setup.sZSGreen[0]);
+            //checkBox33.Checked = IntToBool(Setup.sZSGreen[1]);
+            //checkBox32.Checked = IntToBool(Setup.sZSGreen[2]);
+            //checkBox31.Checked = IntToBool(Setup.sZSGreen[3]);
+            //checkBox30.Checked = IntToBool(Setup.sZSGreen[4]);
+            //checkBox29.Checked = IntToBool(Setup.sZSGreen[5]);
+            //checkBox28.Checked = IntToBool(Setup.sZSGreen[6]);
+            //checkBox26.Checked = Setup.sZIsUpGreen;
 
             #endregion
 
@@ -207,6 +211,18 @@ namespace Exchange_UI
         #endregion
 
         #region 短观值 非常态初始化
+
+
+        private void comboBox9_SelectionChangeCommitted_1(object sender, EventArgs e)
+        {
+            btnShortFinish.Enabled = true;
+        }
+
+        private void comboBox8_SelectionChangeCommitted_1(object sender, EventArgs e)
+        {
+            btnShortFinish.Enabled = true;
+        }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             btnShortFinish.Enabled = true;
@@ -238,6 +254,9 @@ namespace Exchange_UI
         }
         private void btnShortFinish_Click(object sender, EventArgs e)
         {
+            Setup.sNormalRG = int.Parse(comboBox9.SelectedItem.ToString());
+            Setup.sNormalGG = int.Parse(comboBox8.SelectedItem.ToString());
+
             Setup.sIsGreenAndRed = checkBox2.Checked;
             Setup.sWithoutNum1 = int.Parse(comboBox18.SelectedItem.ToString());
             Setup.sWithoutNum2 = int.Parse(comboBox17.SelectedItem.ToString());
@@ -296,7 +315,6 @@ namespace Exchange_UI
             Setup.sOutOrderSum = int.Parse(comboBox23.SelectedItem.ToString());
             Setup.sAfterMinNum = int.Parse(comboBox10.SelectedItem.ToString());
 
-            new DataShow().ToOutMark();
             btnOutMarkFinish.Enabled = false;
         }
         #endregion
@@ -340,6 +358,18 @@ namespace Exchange_UI
         #endregion
 
         #region 走势图设置
+
+
+        private void comboBox21_SelectionChangeCommitted_1(object sender, EventArgs e)
+        {
+            btnZSTFinish.Enabled = true;
+        }
+
+        private void comboBox7_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            btnZSTFinish.Enabled = true;
+        }
+
         private void checkBox8_CheckedChanged(object sender, EventArgs e)
         {
             btnZSTFinish.Enabled = true;
@@ -462,193 +492,200 @@ namespace Exchange_UI
 
         private void btnZSTFinish_Click(object sender, EventArgs e)
         {
-            #region red
-            if (checkBox8.Checked)
-            {
-                Setup.sZSRed[0] = 0;
-            }
-            else
-            {
-                Setup.sZSRed[0] = -1;
-            }
-            if (checkBox9.Checked)
-            {
-                Setup.sZSRed[1] = 1;
-            }
-            else
-            {
-                Setup.sZSRed[1] = -1;
-            }
-            if (checkBox10.Checked)
-            {
-                Setup.sZSRed[2] = 2;
-            }
-            else
-            {
-                Setup.sZSRed[2] = -1;
-            }
-            if (checkBox11.Checked)
-            {
-                Setup.sZSRed[3] = 3;
-            }
-            else
-            {
-                Setup.sZSRed[3] = -1;
-            }
-            if (checkBox12.Checked)
-            {
-                Setup.sZSRed[4] = 4;
-            }
-            else
-            {
-                Setup.sZSRed[4] = -1;
-            }
-            if (checkBox13.Checked)
-            {
-                Setup.sZSRed[5] = 5;
-            }
-            else
-            {
-                Setup.sZSRed[5] = -1;
-            }
-            if (checkBox14.Checked)
-            {
-                Setup.sZSRed[6] = 6;
-            }
-            else
-            {
-                Setup.sZSRed[6] = -1;
-            }
+            #region 注释 1.0
+            //#region red
+            //if (checkBox8.Checked)
+            //{
+            //    Setup.sZSRed[0] = 0;
+            //}
+            //else
+            //{
+            //    Setup.sZSRed[0] = -1;
+            //}
+            //if (checkBox9.Checked)
+            //{
+            //    Setup.sZSRed[1] = 1;
+            //}
+            //else
+            //{
+            //    Setup.sZSRed[1] = -1;
+            //}
+            //if (checkBox10.Checked)
+            //{
+            //    Setup.sZSRed[2] = 2;
+            //}
+            //else
+            //{
+            //    Setup.sZSRed[2] = -1;
+            //}
+            //if (checkBox11.Checked)
+            //{
+            //    Setup.sZSRed[3] = 3;
+            //}
+            //else
+            //{
+            //    Setup.sZSRed[3] = -1;
+            //}
+            //if (checkBox12.Checked)
+            //{
+            //    Setup.sZSRed[4] = 4;
+            //}
+            //else
+            //{
+            //    Setup.sZSRed[4] = -1;
+            //}
+            //if (checkBox13.Checked)
+            //{
+            //    Setup.sZSRed[5] = 5;
+            //}
+            //else
+            //{
+            //    Setup.sZSRed[5] = -1;
+            //}
+            //if (checkBox14.Checked)
+            //{
+            //    Setup.sZSRed[6] = 6;
+            //}
+            //else
+            //{
+            //    Setup.sZSRed[6] = -1;
+            //}
             
-            Setup.sZIsUpRed = checkBox16.Checked;
+            //Setup.sZIsUpRed = checkBox16.Checked;
             
+            //#endregion
+
+            //#region yellow
+            //if (checkBox25.Checked)
+            //{
+            //    Setup.sZSYellow[0] = 0;
+            //}
+            //else
+            //{
+            //    Setup.sZSYellow[0] = -1;
+            //}
+            //if (checkBox24.Checked)
+            //{
+            //    Setup.sZSYellow[1] = 1;
+            //}
+            //else
+            //{
+            //    Setup.sZSYellow[1] = -1;
+            //}
+            //if (checkBox23.Checked)
+            //{
+            //    Setup.sZSYellow[2] = 2;
+            //}
+            //else
+            //{
+            //    Setup.sZSYellow[2] = -1;
+            //}
+            //if (checkBox22.Checked)
+            //{
+            //    Setup.sZSYellow[3] = 3;
+            //}
+            //else
+            //{
+            //    Setup.sZSYellow[3] = -1;
+            //}
+            //if (checkBox21.Checked)
+            //{
+            //    Setup.sZSYellow[4] = 4;
+            //}
+            //else
+            //{
+            //    Setup.sZSYellow[4] = -1;
+            //}
+            //if (checkBox20.Checked)
+            //{
+            //    Setup.sZSYellow[5] = 5;
+            //}
+            //else
+            //{
+            //    Setup.sZSYellow[5] = -1;
+            //}
+            //if (checkBox19.Checked)
+            //{
+            //    Setup.sZSYellow[6] = 6;
+            //}
+            //else
+            //{
+            //    Setup.sZSYellow[6] = -1;
+            //}
+
+            //#endregion
+
+            //#region green
+            //if (checkBox34.Checked)
+            //{
+            //    Setup.sZSGreen[0] = 0;
+            //}
+            //else
+            //{
+            //    Setup.sZSGreen[0] = -1;
+            //}
+            //if (checkBox33.Checked)
+            //{
+            //    Setup.sZSGreen[1] = 1;
+            //}
+            //else
+            //{
+            //    Setup.sZSGreen[1] = -1;
+            //}
+            //if (checkBox32.Checked)
+            //{
+            //    Setup.sZSGreen[2] = 2;
+            //}
+            //else
+            //{
+            //    Setup.sZSGreen[2] = -1;
+            //}
+            //if (checkBox31.Checked)
+            //{
+            //    Setup.sZSGreen[3] = 3;
+            //}
+            //else
+            //{
+            //    Setup.sZSGreen[3] = -1;
+            //}
+            //if (checkBox30.Checked)
+            //{
+            //    Setup.sZSGreen[4] = 4;
+            //}
+            //else
+            //{
+            //    Setup.sZSGreen[4] = -1;
+            //}
+            //if (checkBox29.Checked)
+            //{
+            //    Setup.sZSGreen[5] = 5;
+            //}
+            //else
+            //{
+            //    Setup.sZSGreen[5] = -1;
+            //}
+            //if (checkBox28.Checked)
+            //{
+            //    Setup.sZSGreen[6] = 6;
+            //}
+            //else
+            //{
+            //    Setup.sZSGreen[6] = -1;
+            //}
+            //Setup.sZIsUpGreen = checkBox26.Checked;
+
+            //#endregion
+            ////green
+
+            //Setup.zoushiRed = int.Parse(comboBox24.SelectedItem.ToString());
+
+            //Setup.zoushiGreen = int.Parse(comboBox11.SelectedItem.ToString());
             #endregion
 
-            #region yellow
-            if (checkBox25.Checked)
-            {
-                Setup.sZSYellow[0] = 0;
-            }
-            else
-            {
-                Setup.sZSYellow[0] = -1;
-            }
-            if (checkBox24.Checked)
-            {
-                Setup.sZSYellow[1] = 1;
-            }
-            else
-            {
-                Setup.sZSYellow[1] = -1;
-            }
-            if (checkBox23.Checked)
-            {
-                Setup.sZSYellow[2] = 2;
-            }
-            else
-            {
-                Setup.sZSYellow[2] = -1;
-            }
-            if (checkBox22.Checked)
-            {
-                Setup.sZSYellow[3] = 3;
-            }
-            else
-            {
-                Setup.sZSYellow[3] = -1;
-            }
-            if (checkBox21.Checked)
-            {
-                Setup.sZSYellow[4] = 4;
-            }
-            else
-            {
-                Setup.sZSYellow[4] = -1;
-            }
-            if (checkBox20.Checked)
-            {
-                Setup.sZSYellow[5] = 5;
-            }
-            else
-            {
-                Setup.sZSYellow[5] = -1;
-            }
-            if (checkBox19.Checked)
-            {
-                Setup.sZSYellow[6] = 6;
-            }
-            else
-            {
-                Setup.sZSYellow[6] = -1;
-            }
+            Setup.signLightRY = int.Parse(comboBox7.SelectedItem.ToString());
+            Setup.signLightYG = int.Parse(comboBox21.SelectedItem.ToString());
 
-            #endregion
-
-            #region green
-            if (checkBox34.Checked)
-            {
-                Setup.sZSGreen[0] = 0;
-            }
-            else
-            {
-                Setup.sZSGreen[0] = -1;
-            }
-            if (checkBox33.Checked)
-            {
-                Setup.sZSGreen[1] = 1;
-            }
-            else
-            {
-                Setup.sZSGreen[1] = -1;
-            }
-            if (checkBox32.Checked)
-            {
-                Setup.sZSGreen[2] = 2;
-            }
-            else
-            {
-                Setup.sZSGreen[2] = -1;
-            }
-            if (checkBox31.Checked)
-            {
-                Setup.sZSGreen[3] = 3;
-            }
-            else
-            {
-                Setup.sZSGreen[3] = -1;
-            }
-            if (checkBox30.Checked)
-            {
-                Setup.sZSGreen[4] = 4;
-            }
-            else
-            {
-                Setup.sZSGreen[4] = -1;
-            }
-            if (checkBox29.Checked)
-            {
-                Setup.sZSGreen[5] = 5;
-            }
-            else
-            {
-                Setup.sZSGreen[5] = -1;
-            }
-            if (checkBox28.Checked)
-            {
-                Setup.sZSGreen[6] = 6;
-            }
-            else
-            {
-                Setup.sZSGreen[6] = -1;
-            }
-            Setup.sZIsUpGreen = checkBox26.Checked;
-
-            #endregion
-            //green
-
-            Setup.zoushiRed = int.Parse(comboBox24.SelectedItem.ToString());
-
-            Setup.zoushiGreen = int.Parse(comboBox11.SelectedItem.ToString());
+            new DataShow().ToSignLight();
             btnZSTFinish.Enabled = false;
         }
 
@@ -666,7 +703,8 @@ namespace Exchange_UI
         }
         #endregion
 
-        #region 点差栏提示符
+        #region 势值栏提示符
+
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
             btnDianchaFinish.Enabled = true;
@@ -732,10 +770,9 @@ namespace Exchange_UI
             Setup.gShortBothMore = int.Parse(comboBox6.SelectedItem.ToString());    
 
 
-            Setup.gPChangeOrderNum = int.Parse(comboBox7.SelectedItem.ToString());
             Setup.gIsUseSound = checkBox15.Checked;
 
-            new DataShow().ToTable();
+            new DataShow().UpCirMark();
 
             btnDianchaFinish.Enabled = false;
         }
@@ -794,6 +831,7 @@ namespace Exchange_UI
 
             btnCountDown.Enabled = false;
         }
+
 
 
     }

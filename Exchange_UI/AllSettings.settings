@@ -84,7 +84,7 @@
       <Value Profile="(Default)">9</Value>
     </Setting>
     <Setting Name="sShortAllMore" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="sLongSumMore" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-5</Value>
@@ -310,6 +310,21 @@
     </Setting>
     <Setting Name="gIsUseSound" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="sNormalRG" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="sNormalGG" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="signLightRY" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="signLightYG" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="linePosOldName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GBPUSD</Value>
     </Setting>
   </Settings>
 </SettingsFile>

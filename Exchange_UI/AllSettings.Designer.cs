@@ -349,7 +349,7 @@ namespace Exchange_UI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
         public int sShortAllMore {
             get {
                 return ((int)(this["sShortAllMore"]));
@@ -1256,6 +1256,66 @@ namespace Exchange_UI {
             }
             set {
                 this["gIsUseSound"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int sNormalRG {
+            get {
+                return ((int)(this["sNormalRG"]));
+            }
+            set {
+                this["sNormalRG"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int sNormalGG {
+            get {
+                return ((int)(this["sNormalGG"]));
+            }
+            set {
+                this["sNormalGG"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int signLightRY {
+            get {
+                return ((int)(this["signLightRY"]));
+            }
+            set {
+                this["signLightRY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int signLightYG {
+            get {
+                return ((int)(this["signLightYG"]));
+            }
+            set {
+                this["signLightYG"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("GBPUSD")]
+        public string linePosOldName {
+            get {
+                return ((string)(this["linePosOldName"]));
+            }
+            set {
+                this["linePosOldName"] = value;
             }
         }
     }

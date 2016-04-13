@@ -26,6 +26,11 @@ namespace Exchange_UI
             set { order = value; }
         }
 
+        /// <summary>
+        /// 配序号前6的货币的势值的平均值
+        /// </summary>
+        public static int fengZhongAver = 0;
+
         public int[] fengzhong = new int[120];
 
         #region 倒计时相关

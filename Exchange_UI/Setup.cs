@@ -10,6 +10,10 @@ namespace Exchange_UI
     public class Setup
     {
         /// <summary>
+        /// 当前线框所在位置的货币对的名称
+        /// </summary>
+        public static string linePosOldName = "AAABBB";
+        /// <summary>
         /// 外汇时间
         /// </summary>
         public static string timeWaihui;
@@ -64,6 +68,9 @@ namespace Exchange_UI
         public static int gFengzhongSumMore = 100;
 
         public static int gPChangeOrderNum = 3;
+        /// <summary>
+        /// 用户是否启动绿色提示符开关
+        /// </summary>
         public static bool gIsUseSound = false;
 
         /// <summary>
@@ -72,7 +79,15 @@ namespace Exchange_UI
         public static int gPlayNum = 1;
         #endregion
 
-        #region 短观值非常态设置
+        #region 势值非常态设置
+        /// <summary>
+        /// 常态 字体颜色在红灰之间的界限值
+        /// </summary>
+        public static int sNormalRG = 50;
+        /// <summary>
+        /// 常态 字体颜色在灰绿之间的界限值
+        /// </summary>
+        public static int sNormalGG = 60;
         /// <summary>
         /// 货币对颜色相反，即一红一绿 选中与否
         /// </summary>
@@ -90,9 +105,9 @@ namespace Exchange_UI
         /// </summary>
         public static int sOrderSumLess = 9;
         /// <summary>
-        /// 短观值同时大于
+        /// 势值同时大于
         /// </summary>
-        public static int sShortAllMore = 0;
+        public static int sShortAllMore = 60;
         /// <summary>
         /// 长观值之和大于
         /// </summary>
@@ -119,6 +134,10 @@ namespace Exchange_UI
         //public static string pathTemp = "F:/ProgramAndLearn/MyProject/【外包】外汇程序/2016版外汇程序/ExchangeApp2016/Exchange_UI/bin/Debug";
 
         #region 走势图 信号灯设置
+
+        public static int signLightRY = 50;
+        public static int signLightYG = 60;
+
         /// <summary>
         /// 绿灯 提示音播放次数
         /// </summary>
@@ -185,7 +204,6 @@ namespace Exchange_UI
 
         #region 播放音乐
 
-        public static bool isPlayGreenMusic = false;        //是否可以播放Green音乐
         public static bool GreenMusicState = false;         //当前是否在播放Green音乐
         public static int GreenMusicNum = 0;                //已经播放Green 次数
 
@@ -194,6 +212,7 @@ namespace Exchange_UI
         /// </summary>
         public static int isPlayOutMusic = 0;
 
+        public static bool isPlaySignnumMusic = false;
 
         public static MyTime outStartTime;
         public static MyTime redStartTime;

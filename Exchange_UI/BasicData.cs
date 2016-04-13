@@ -48,10 +48,12 @@ namespace Exchange_UI
                     //dataFiler.SetColor();
 
                     dataShow.ToTable();
-
+                    dataShow.UpdateLineLoc();
 
                     dataShow.ToZhongzhou();
 
+                    dataShow.ToLong();
+                    dataShow.ToOutMark();
                     //dataShow.UpLine();
                     dataShow.UpStar();
                     dataShow.UpCirMark();
@@ -59,6 +61,8 @@ namespace Exchange_UI
                     dataShow.ToFengxiangtu();
                     dataShow.ToZoushitu();
                     dataShow.ToSignLight();
+                    dataShow.ToSignZoushitu();
+                    dataShow.UpdateSignnumState();
                 }
 
                 if (BasicData.indexNum == 0)
@@ -91,16 +95,21 @@ namespace Exchange_UI
 
                 dataFiler.PPP();
                 dataShow.ToLocation();
-
+                if (dataFiler.IsGetData() || dataShow.IsUpdateDZST())
+                {
+                    dataShow.ToDoubleZoushitu();
+                }
                 dataFiler.ToGGG();
 
                 indexNum++;
-                Thread.Sleep(2000);     //3000 修改为 1000
+                Thread.Sleep(1000);     //3000 修改为 1000
                 Run();
             }
             catch(Exception ex)
             {
-                Console.Write(ex.ToString());
+                DataFiler.ErrorLog(ex.ToString());
+                Thread.Sleep(2000);
+                Run();
             }
         }
 
@@ -109,13 +118,6 @@ namespace Exchange_UI
             try
             {
                 Thread.Sleep(3000);
-
-                ////接口文件出错
-                //if(Setup.isFoundError)
-                //{
-                //    player.PlayEachSound(@".\jingbao.wav", 2000);
-                //    Setup.isFoundError = false;
-                //}
 
                 //离场符号提示音           ！
                 if (Setup.isPlayOutMusic != 0)
@@ -137,35 +139,44 @@ namespace Exchange_UI
                     isPlayOutMusicNum = 0;
                 }
 
-                //走势图 红灯
-                if (Setup.isStartRedMusic)
-                {
-                    if (isPlayRedMusicNum == 0)
-                    {
-                        Setup.redStartTime = new MyTime(0, MyTime.nowTime.Hour, MyTime.nowTime.Min);
-                    }
-                    if (MyTime.GetTimeDiff(Setup.redStartTime) > Setup.zoushiRed || (isPlayRedMusicNum == 0))
-                    {
-                        Setup.redStartTime = new MyTime(0, MyTime.nowTime.Hour, MyTime.nowTime.Min);
-                        isPlayRedMusicNum++;
-                        player.PlayEachSound(@".\jingbao.wav", 2000);
-                    }
-                    Setup.isPlayOutMusic = 0;
-                    //Setup.isStartRedMusic = false;
-                }
-                else
-                {
-                    isPlayRedMusicNum = 0;
+                #region 已经去掉的提示音
+                ////接口文件出错
+                //if(Setup.isFoundError)
+                //{
+                //    player.PlayEachSound(@".\jingbao.wav", 2000);
+                //    Setup.isFoundError = false;
+                //}
 
 
-                    //走势图 绿灯
-                    if (Setup.isStartGreenMusic)
-                    {
-                        player.PlayLoopingSound( @".\jiji.wav",6000,Setup.zoushiGreen);
+                ////走势图 红灯
+                //if (Setup.isStartRedMusic)
+                //{
+                //    if (isPlayRedMusicNum == 0)
+                //    {
+                //        Setup.redStartTime = new MyTime(0, MyTime.nowTime.Hour, MyTime.nowTime.Min);
+                //    }
+                //    if (MyTime.GetTimeDiff(Setup.redStartTime) > Setup.zoushiRed || (isPlayRedMusicNum == 0))
+                //    {
+                //        Setup.redStartTime = new MyTime(0, MyTime.nowTime.Hour, MyTime.nowTime.Min);
+                //        isPlayRedMusicNum++;
+                //        player.PlayEachSound(@".\jingbao.wav", 2000);
+                //    }
+                //    Setup.isPlayOutMusic = 0;
+                //    //Setup.isStartRedMusic = false;
+                //}
+                //else
+                //{
+                //    isPlayRedMusicNum = 0;
+
+
+                //    //走势图 绿灯
+                //    if (Setup.isStartGreenMusic)
+                //    {
+                //        player.PlayLoopingSound( @".\jiji.wav",6000,Setup.zoushiGreen);
                         
-                        Setup.isStartGreenMusic = false;
-                    }
-                }
+                //        Setup.isStartGreenMusic = false;
+                //    }
+                //}
 
                 ////黄灯
                 //if(Setup.isStartYellowMusic)
@@ -173,14 +184,32 @@ namespace Exchange_UI
                 //    player.PlayLoopingSound(@".\jingbao.wav", 2000, 1);
                 //    Setup.isStartYellowMusic = false;
                 //}
-                
 
-                ////绿色提示符
-                //if (Setup.isPlayGreenMusic)
-                //{
-                //    player.PlayLoopingSound(@".\jiji.wav",13000,Setup.gPlayNum);
-                //    Setup.isPlayGreenMusic = false;
-                //}
+                /*
+                //绿色提示符
+                if (Setup.gIsUseSound)
+                {
+                    foreach (MoneyGroup mgp in DataFiler.basicMoneyGroup)
+                    {
+                        foreach (MoneyBoth mbth in mgp.allMoneyBoth)
+                        {
+                            if (mbth.CirMarkState && mbth.CirMarkPlayNum == 0)
+                            {
+                                player.PlayEachSound(@".\circle.wav", 2000);
+                                mbth.CirMarkPlayNum++;
+                            }
+                        }
+                    }
+                }
+                */
+                #endregion
+
+                if(Setup.isPlaySignnumMusic)
+                {
+                    player.PlayEachSound(@".\circle.wav", 2000);
+                    Setup.isPlaySignnumMusic = false;
+                }
+
                 PlayMusic();
             }
             catch(Exception ex)
@@ -188,6 +217,7 @@ namespace Exchange_UI
                 BasicData.mainUI.Invoke(BasicData.mainUI.ShowFormText, new object[] { 
                     DataFiler.basicFormText + "*未找到音效文件*",
                     BasicData.mainUI });
+                PlayMusic();
             }
         }
     }

@@ -33,18 +33,41 @@ namespace Exchange_UI
             set { diancha = value; }
         }
         private char posLocation;
-
+        /// <summary>
+        /// 左侧的位置栏位置标记
+        /// </summary>
         public char PosLocation
         {
             get { return posLocation; }
             set { posLocation = value; }
         }
-        private int posNum;
+        private char posLocationR;
+        /// <summary>
+        /// 右侧的位置栏位置标记
+        /// </summary>
+        public char PosLocationR
+        {
+            get { return posLocationR; }
+            set { posLocationR = value; }
+        }
 
+        private int posNum;
+        /// <summary>
+        /// 左侧的数字
+        /// </summary>
         public int PosNum
         {
             get { return posNum; }
             set { posNum = value; }
+        }
+        private int posNumR;
+        /// <summary>
+        /// 右侧的数字
+        /// </summary>
+        public int PosNumR
+        {
+            get { return posNumR; }
+            set { posNumR = value; }
         }
         private char buyOrSell;
 
@@ -78,6 +101,27 @@ namespace Exchange_UI
             set { shortState = value; }
         }
 
+        private bool cirMarkState = false;
+
+        /// <summary>
+        /// 绿色提示符的是否出现
+        /// </summary>
+        public bool CirMarkState
+        {
+            get { return cirMarkState; }
+            set { cirMarkState = value; }
+        }
+
+        private int cirMarkPlayNum = 0;
+        /// <summary>
+        /// 绿色提示符 提示音播放次数
+        /// </summary>
+        public int CirMarkPlayNum
+        {
+            get { return cirMarkPlayNum; }
+            set { cirMarkPlayNum = value; }
+        }
+
         private bool bsState = false;
         /// <summary>
         /// 标记是否出现买卖符号
@@ -108,6 +152,26 @@ namespace Exchange_UI
             set { doubleGreen = value; }
         }
 
+        private int redLineLoc = 0;
+
+        /// <summary>
+        /// 叠加走势图中红线的位置
+        /// </summary>
+        public int RedLineLoc
+        {
+            get { return redLineLoc; }
+            set { redLineLoc = value; }
+        }
+
+        private int redLineOldLoc = 0;
+        /// <summary>
+        /// 叠加走势图中红线的上一次的位置
+        /// </summary>
+        public int RedLineOldLoc
+        {
+            get { return redLineOldLoc; }
+            set { redLineOldLoc = value; }
+        }
 
         public MoneyBoth()
         {
@@ -124,6 +188,7 @@ namespace Exchange_UI
         public void InitPosNum( char key)
         {
             PosLocation = key;
+            PosLocationR = key;
         }
 
         public object Clone()

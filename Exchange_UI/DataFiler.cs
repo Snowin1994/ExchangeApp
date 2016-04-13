@@ -174,8 +174,16 @@ namespace Exchange_UI
                     //读取part2
                     int posNum = int.Parse(line.Substring(13));
                     //将两个部分放到相对应的对象中
-                    both.PosLocation = pos;
-                    both.PosNum = posNum;
+                    if (pos == 'L')
+                    {
+                        both.PosLocation = pos;
+                        both.PosNum = posNum;
+                    }
+                    else
+                    {
+                        both.PosLocationR = pos;
+                        both.PosNumR = posNum;
+                    }
                 }
                 sr.Close();
             }
@@ -185,6 +193,7 @@ namespace Exchange_UI
                 BasicData.mainUI.Invoke(BasicData.mainUI.ShowFormText, new object[] { 
                     basicFormText + "*找不到PPP.txt*",
                     BasicData.mainUI });
+                PPP();
             }
             catch (Exception ex)
             {
@@ -192,6 +201,7 @@ namespace Exchange_UI
                 BasicData.mainUI.Invoke(BasicData.mainUI.ShowFormText, new object[] { 
                     basicFormText + "*盈亏点数有误*", 
                     BasicData.mainUI });
+                PPP();
             }
         }
         public void TTT()   // 2016.01.27 02:20;USDJPY.lmx;82S;USDCHF.lmx;2B;USDCAD.lmx;38B;EURUSD.lmx;37S;........
@@ -569,7 +579,7 @@ namespace Exchange_UI
         {
             fenzhu();
             diancha();
-            //SVLV();
+            SVLV();
             PPP();
             TTT();
             jjj();
@@ -669,10 +679,20 @@ namespace Exchange_UI
                 sw.Close();
                 f.Close();
             }
-            catch(System.Security.SecurityException sEx)
+            catch(Exception ex)
             {
                 ToGGG();
             }
+        }
+        public static void ErrorLog(string source)
+        {
+            string path = "E:\\errorlog.txt";
+            FileStream f = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            StreamWriter sw = new StreamWriter(f);
+            sw.WriteLine(source);
+            sw.Flush();
+            sw.Close();
+            f.Close();
         }
     }
 }

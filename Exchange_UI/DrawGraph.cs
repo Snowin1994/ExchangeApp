@@ -15,9 +15,9 @@ namespace Exchange_UI
         private Graphics graph;
         private Pen pen;
         public const int xPercent = 14;
-        public const int rectX = 655;
+        public const int rectX = 656;
         public const int rectY = 23;
-        public static Color lineColor = Color.FromArgb(80, 80, 80);        //线颜色
+        public static Color lineColor = Color.FromArgb(55, 55, 55);        //线颜色
 
         public void PaintClear(Control con)
         {
