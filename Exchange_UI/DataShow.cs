@@ -690,10 +690,10 @@ namespace Exchange_UI
         /// 检查是否显示长观值
         /// </summary>
         /// <param name="num"></param>
-        /// <param name="s"></param>
+        /// <param name="s1"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        private bool IsShowLong(int num, string s, bool state)
+        private bool IsShowLong(int num, string s1, string s2, bool state)
         {
             if(Setup.isUseCondition1)
             {
@@ -704,7 +704,7 @@ namespace Exchange_UI
             }
             if(Setup.isUseCondition2)
             {
-                if (s != "")
+                if (s1 != "" || s2 != "")
                 {
                     return true;
                 }
@@ -737,7 +737,8 @@ namespace Exchange_UI
                         );
 
                     lineNum = GetLine(i, j);
-                    if (IsShowLong(lineNum + 1, lcName[lineNum].Text, DataFiler.basicMoneyGroup[i].allMoneyBoth[j].CirMarkState))
+                        DataFiler.basicMoneyGroup[i].allMoneyBoth[j].BsState = false;
+                    if (IsShowLong(lineNum + 1, lcName[lineNum].Text ,lcNameR[lineNum].Text, DataFiler.basicMoneyGroup[i].allMoneyBoth[j].CirMarkState))
                     {
                         if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].moneyA.LongM < 0)
                         {
@@ -797,104 +798,62 @@ namespace Exchange_UI
             {
                 foreach(MoneyBoth mBoth in mgp.allMoneyBoth)
                 {
-                    if (mBoth.PosLocation != 'x' || mBoth.PosLocationR != 'x')
-                    {
-                        //BasicData.mainUI.Invoke(
-                        //    BasicData.mainUI.ShowText,
-                        //    new object[] { 
-                        //    Math.Abs(mBoth.PosNum).ToString(), 
-                        //    lcName[lineNum]
-                        //});
-                        if (mBoth.PosLocationR == 'R')
-                        {
-                            mBoth.RedLineOldLoc = mBoth.RedLineLoc;
-                            mBoth.RedLineLoc = 0;
-                            BasicData.mainUI.Invoke(
-                                BasicData.mainUI.ShowText,
-                                new object[] { 
-                                Math.Abs(mBoth.PosNumR).ToString(),
-                                lcNameR[lineNum]
-                            });
-                            if (mBoth.PosNumR < 0)
-                            {
-                                lcNameR[lineNum].ForeColor = Color.Yellow;
-                            }
-                            else
-                            {
-                                lcNameR[lineNum].ForeColor = Color.Gray;
-                            }
-                        }
-                        if(mBoth.PosLocation == 'L')
-                        {
-                            if (mBoth.RedLineLoc == 0)
-                            {
-                                mBoth.RedLineOldLoc = mBoth.RedLineLoc;
-                                mBoth.RedLineLoc = mBoth.moneyA.OrderLeft + mBoth.MoneyB.OrderLeft - 100;
-                                if (mBoth.RedLineLoc < 0)
-                                    mBoth.RedLineLoc = -1;
-                            }
-                            BasicData.mainUI.Invoke(
-                                BasicData.mainUI.ShowText,
-                                new object[] { 
-                                Math.Abs(mBoth.PosNum).ToString(),
-                                lcName[lineNum]
-                            });
-                            if (mBoth.PosNum < 0)
-                            {
-                                lcName[lineNum].ForeColor = Color.Yellow;
-                            }
-                            else
-                            {
-                                lcName[lineNum].ForeColor = Color.Gray;
-                            }
-                        }
+                    BasicData.mainUI.Invoke(
+                        BasicData.mainUI.ShowText,
+                        new object[] { 
+                        "", 
+                        lcName[lineNum]
+                    });
+                    BasicData.mainUI.Invoke(
+                        BasicData.mainUI.ShowText,
+                        new object[] { 
+                        "", 
+                        lcNameR[lineNum]
+                    });
+                    mBoth.RedLineOldLoc = mBoth.RedLineLoc;
+                    mBoth.RedLineLoc = 0;
 
-
-
-
-                        //if (mBoth.PosLocation == 'R')
-                        //{
-                        //    lcName[lineNum].TextAlign = ContentAlignment.MiddleRight;
-                        //    mBoth.RedLineOldLoc = mBoth.RedLineLoc;
-                        //    mBoth.RedLineLoc = 0;
-                        //}
-                        //else
-                        //{ 
-                        //    lcName[lineNum].TextAlign = ContentAlignment.MiddleLeft;
-                        //    if (mBoth.RedLineLoc == 0)
-                        //    {
-                        //        mBoth.RedLineOldLoc = mBoth.RedLineLoc;
-                        //        mBoth.RedLineLoc = mBoth.moneyA.OrderLeft + mBoth.MoneyB.OrderLeft - 100;
-                        //        if (mBoth.RedLineLoc < 0)
-                        //            mBoth.RedLineLoc = -1;
-                        //    }
-                        //}
-                        //if (mBoth.PosNum < 0)
-                        //{
-                        //    lcName[lineNum].ForeColor = Color.Yellow;
-                        //}
-                        //else
-                        //{
-                        //    lcName[lineNum].ForeColor = Color.Gray;
-                        //}
-                    }
-                    else
+                    if (mBoth.PosLocationR == 'R')
                     {
                         BasicData.mainUI.Invoke(
                             BasicData.mainUI.ShowText,
                             new object[] { 
-                            "", 
-                            lcName[lineNum]
-                        });
-                        BasicData.mainUI.Invoke(
-                            BasicData.mainUI.ShowText,
-                            new object[] { 
-                            "", 
+                            Math.Abs(mBoth.PosNumR).ToString(),
                             lcNameR[lineNum]
                         });
-                        mBoth.RedLineOldLoc = mBoth.RedLineLoc;
-                        mBoth.RedLineLoc = 0;
+                        if (mBoth.PosNumR < 0)
+                        {
+                            lcNameR[lineNum].ForeColor = Color.Yellow;
+                        }
+                        else
+                        {
+                            lcNameR[lineNum].ForeColor = Color.Gray;
+                        }
                     }
+                    if(mBoth.PosLocation == 'L')
+                    {
+                        if (mBoth.RedLineLoc == 0)
+                        {
+                            mBoth.RedLineLoc = mBoth.moneyA.OrderLeft + mBoth.MoneyB.OrderLeft - 100;
+                            if (mBoth.RedLineLoc < 0)
+                                mBoth.RedLineLoc = -1;
+                        }
+                        BasicData.mainUI.Invoke(
+                            BasicData.mainUI.ShowText,
+                            new object[] { 
+                            Math.Abs(mBoth.PosNum).ToString(),
+                            lcName[lineNum]
+                        });
+                        if (mBoth.PosNum < 0)
+                        {
+                            lcName[lineNum].ForeColor = Color.Yellow;
+                        }
+                        else
+                        {
+                            lcName[lineNum].ForeColor = Color.Gray;
+                        }
+                    }
+                    
                     lineNum++;
                 }
             }
@@ -976,6 +935,7 @@ namespace Exchange_UI
         /// <returns></returns>
         private bool IsShowOutM(string s, MoneyBoth m)
         {
+            m.OutState = false;
             if( s != "" &&
                 (   
                     (m.moneyA.LongM + m.MoneyB.LongM < Setup.sOutLongSum )||

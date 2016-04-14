@@ -662,8 +662,8 @@ namespace Exchange_UI
 
                         lineNum++;
 
-                        mb.BsState = false;     //初始化
-                        mb.OutState = false;    //初始化
+                        //mb.BsState = false;     //初始化
+                        //mb.OutState = false;    //初始化
 
                     }
                 }
@@ -677,7 +677,7 @@ namespace Exchange_UI
                 sw.WriteLine(source);
                 sw.Flush();
                 sw.Close();
-                f.Close();
+                //f.Close();
             }
             catch(Exception ex)
             {
@@ -692,7 +692,7 @@ namespace Exchange_UI
             sw.WriteLine(source);
             sw.Flush();
             sw.Close();
-            f.Close();
+            //f.Close();
         }
     }
 }

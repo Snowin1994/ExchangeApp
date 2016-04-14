@@ -40,7 +40,6 @@ namespace Exchange_UI
             {
                 if (BasicData.indexNum == 0)
                     dataFiler = new DataFiler();
-                //Thread.Sleep(300);
                 dataShow = new DataShow();
                 if (dataFiler.IsGetData())
                 {
@@ -108,7 +107,6 @@ namespace Exchange_UI
             catch(Exception ex)
             {
                 DataFiler.ErrorLog(ex.ToString());
-                Thread.Sleep(2000);
                 Run();
             }
         }

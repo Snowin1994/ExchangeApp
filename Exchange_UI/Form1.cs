@@ -564,7 +564,6 @@ namespace Exchange_UI
             #region 检查是否发现错误
             if (Setup.isFoundError)
             {
-                //Thread.Sleep(Setup.stopSec * 1000);
                 this.Text = DataFiler.basicFormText;
 
                 Setup.isFoundError = false;
@@ -630,13 +629,7 @@ namespace Exchange_UI
 
         private void MainUI_TextChanged(object sender, EventArgs e)
         {
-            //if (Setup.isFoundError)
-            //{
-            //    Thread.Sleep(Setup.stopSec * 1000);
-            //    this.Text = DataFiler.basicFormText;
-
-            //    Setup.isFoundError = false;
-            //}
+            
         }
 
         #region 中轴按钮色块变化

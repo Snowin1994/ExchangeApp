@@ -49,14 +49,14 @@ namespace Exchange_UI
             FolderView =2
         }
 
-        IntPtr hDesktop;
-        public const int GW_CHILD = 5;
+        //IntPtr hDesktop;
+        //public const int GW_CHILD = 5;
 
-        [DllImport("user32 ")]
-        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        //[DllImport("user32 ")]
+        //private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        [DllImport("user32 ")]
-        private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        //[DllImport("user32 ")]
+        //private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
 
         public FMWarnTime()
@@ -80,8 +80,8 @@ namespace Exchange_UI
             lblWPTimeName = LBName;
 
 
-            this.hDesktop = GetDesktopHandle(DesktopLayer.Progman);
-            EmbedDesktop(this, this.Handle, this.hDesktop);
+            //this.hDesktop = GetDesktopHandle(DesktopLayer.Progman);
+            //EmbedDesktop(this, this.Handle, this.hDesktop);
             //isMouseDown = false; 
 
             for(int i = 0; i < FMWarnTime.timeCountDown.Count; i++)
@@ -95,12 +95,12 @@ namespace Exchange_UI
 
         private void FMWarnTime_Load(object sender, EventArgs e)
         {
-            IntPtr hDeskTop = FindWindow("Progman ", "Program Manager ");
-            SetParent(this.Handle, hDeskTop);
+            //IntPtr hDeskTop = FindWindow("Progman ", "Program Manager ");
+            //SetParent(this.Handle, hDeskTop);
             showWPTimeToTanle();
             //this.reportViewer1.RefreshReport();
         }
-
+        /*
         public IntPtr GetDesktopHandle(DesktopLayer layer)
         { //hWnd = new HandleRef();
             HandleRef hWnd;
@@ -136,7 +136,7 @@ namespace Exchange_UI
 
 
         }
-
+        */
         private void btnOK_Click(object sender, EventArgs e)
         {
             try
