@@ -61,6 +61,7 @@ namespace Exchange_UI
                     dataShow.ToZoushitu();
                     dataShow.ToSignLight();
                     dataShow.ToSignZoushitu();
+                    //dataShow.ToAllDoubleZST();
                     dataShow.UpdateSignnumState();
                 }
 
@@ -93,10 +94,13 @@ namespace Exchange_UI
                 //dataShow.ToOutMark();
 
                 dataFiler.PPP();
+                dataFiler.hxc();
                 dataShow.ToLocation();
+                dataShow.ToHxcData();
                 if (dataFiler.IsGetData() || dataShow.IsUpdateDZST())
                 {
                     dataShow.ToDoubleZoushitu();
+                    dataShow.ToAllDoubleZST();
                 }
                 dataFiler.ToGGG();
 
@@ -122,11 +126,11 @@ namespace Exchange_UI
                 {
                     if (isPlayOutMusicNum == 0)
                     {
-                        Setup.outStartTime = new MyTime(0, MyTime.nowTime.Hour, MyTime.nowTime.Min);
+                        Setup.outStartTime = new MyTime(DateTime.Now.Day, MyTime.nowTime.Hour, MyTime.nowTime.Min);
                     }
                     if (MyTime.GetTimeDiff(Setup.outStartTime) > Setup.sAfterMinNum || (isPlayOutMusicNum == 0))
                     {
-                        Setup.outStartTime = new MyTime(0, MyTime.nowTime.Hour, MyTime.nowTime.Min);
+                        Setup.outStartTime = new MyTime(DateTime.Now.Day, MyTime.nowTime.Hour, MyTime.nowTime.Min);
                         isPlayOutMusicNum++;
                         player.PlayEachSound(@".\jingbao.wav",2000);
                     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Exchange_UI
 {
-    public class MoneyBoth : ICloneable
+    public class MoneyBoth : ICloneable,IComparable
     {
         public Money moneyA;
         private Money moneyB;
@@ -89,6 +89,24 @@ namespace Exchange_UI
         {
             get { return priceChange; }
             set { priceChange = value; }
+        }
+        private int hxcNum;
+        /// <summary>
+        /// 读取到的hxc.txt文件数据
+        /// </summary>
+        public int HxcNum
+        {
+            get { return hxcNum; }
+            set { hxcNum = value; }
+        }
+        private int ordersum = 0;
+        /// <summary>
+        /// 两个货币的排序号之和
+        /// </summary>
+        public int Ordersum
+        {
+            get { return ordersum; }
+            set { ordersum = value; }
         }
 
         private int shortState = 0;
@@ -185,16 +203,33 @@ namespace Exchange_UI
             this.Name = moneyA.Name + MoneyB.Name;
         }
 
-        public void InitPosNum( char key)
+        public void InitPosNum( char key, int num)
         {
             PosLocation = key;
             PosLocationR = key;
+            PosNum = num;
+            PosNumR = num;
         }
 
         public object Clone()
         {
             return this.MemberwiseClone();
         }
-        
+        public int CompareTo(object obj)
+        {
+            int result;
+            try
+            {
+                 MoneyBoth info = obj as MoneyBoth;
+                 if (this.Ordersum < info.Ordersum)
+                 {
+                     result = 0;
+                 }
+                 else
+                     result = 1;
+                 return result;
+             }
+             catch (Exception ex) { throw new Exception(ex.Message); }
+         }
     }
 }

@@ -31,7 +31,9 @@ namespace Exchange_UI
             set { day = value; }
         }
 
-
+        /// <summary>
+        /// 当前时间
+        /// </summary>
         public static MyTime nowTime;
         public static DateTime lastClosedAppTime;
 
@@ -245,7 +247,7 @@ namespace Exchange_UI
 
         public MyTime(string source)
         {
-            day = 0;
+            day = DateTime.Now.Day;
             hour = int.Parse(source.Substring(0, 2));
             min = int.Parse(source.Substring(3, 2));
         }

@@ -102,6 +102,17 @@ namespace Exchange_UI
             set { color = value; }
         }
 
+        private int fengxiang = 0;
+        /// <summary>
+        /// 风向栏
+        /// </summary>
+        public int Fengxiang
+        {
+            get { return fengxiang; }
+            set { fengxiang = value; }
+        }
+        
+
         private Color moneyColor;
 
         /// <summary>
@@ -133,6 +144,9 @@ namespace Exchange_UI
             return this.MemberwiseClone();
         }
 
+        /// <summary>
+        /// 删除已经过去的时间
+        /// </summary>
         internal static void CheckCountDownLose()
         {
             foreach (Money m in DataFiler.basicMoney)

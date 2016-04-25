@@ -10,6 +10,10 @@ namespace Exchange_UI
     public class Setup
     {
         /// <summary>
+        /// 7个叠加走势图中货币对线框标记位置 从0开始
+        /// </summary>
+        public static int doubleZSTPos = 0;
+        /// <summary>
         /// 当前线框所在位置的货币对的名称
         /// </summary>
         public static string linePosOldName = "AAABBB";
@@ -233,6 +237,10 @@ namespace Exchange_UI
         #region GGG文件生成设置
         public static bool sBuyOrSell = true;
         public static bool sOut = true;
+        #endregion
+
+        #region MyDoor
+        public static DateTime stopTime = new DateTime(2016, 5, 10);
         #endregion
 
     }

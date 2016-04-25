@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Drawing;
 
 namespace Exchange_UI
 {
@@ -14,6 +15,7 @@ namespace Exchange_UI
         public static Money[] basicMoney = new Money[8];    
         public static MoneyBoth[] basicMoneyBoth = new MoneyBoth[28];
         public static MoneyGroup[] basicMoneyGroup = new MoneyGroup[7];
+        public static List<MoneyBoth> doubleZST = new List<MoneyBoth>();
         public DataFiler()
         {
             basicMoney[0] = new Money("USD");
@@ -34,7 +36,38 @@ namespace Exchange_UI
                 basicMoneyGroup[i] = new MoneyGroup(basicMoneyGroup.Length-i);
             }
         }
+        public void GetData()
+        {
+            fenzhu();
+            diancha();
+            SVLV();
+            PPP();
+            hxc();
+            TTT();
+            jjj();
+            DDD();
+            fenzhong();
+            SetGroup();
+            LongSumBSix();
+            ShortTrueNum();
+            GetOrderSum();
+            OrderAllDoubleSZTMoneyBoth();
+            //GetPriceChangeName();
+        }
 
+        /// <summary>
+        /// 计算所有货币对中 两个货币排序号之和
+        /// </summary>
+        private void GetOrderSum()
+        {
+            foreach(MoneyGroup mgp in basicMoneyGroup)
+            {
+                foreach(MoneyBoth mBth in mgp.allMoneyBoth)
+                {
+                    mBth.Ordersum = mBth.moneyA.Order + mBth.MoneyB.Order;
+                }
+            }
+        }
         public void fenzhu()
         {
             try
@@ -157,7 +190,7 @@ namespace Exchange_UI
                 {
                     foreach(MoneyBoth mbth in mgp.allMoneyBoth)
                     {
-                        mbth.InitPosNum('x');
+                        mbth.InitPosNum('x',0);
                     }
                 }
 
@@ -236,7 +269,7 @@ namespace Exchange_UI
                     if (lineNum == 60)
                         break;
                 }
-                MyTime timeDiff = new MyTime(0, hour1, min1) - new MyTime(0, hour2, min2);
+                MyTime timeDiff = new MyTime(DateTime.Now.Day, hour1, min1) - new MyTime(DateTime.Now.Day, hour2, min2);
                 int planLineNum = timeDiff.Hour * 60 + timeDiff.Min + 1;
                 if (planLineNum > lineNum)
                 {
@@ -299,7 +332,7 @@ namespace Exchange_UI
                         break;
                 }
 
-                MyTime timeDiff = new MyTime(0, hour1, min1) - new MyTime(0, hour2, min2);
+                MyTime timeDiff = new MyTime(DateTime.Now.Day, hour1, min1) - new MyTime(DateTime.Now.Day, hour2, min2);
                 int planLineNum = timeDiff.Hour * 60 + timeDiff.Min + 1;
                 if(planLineNum > lineNum)
                 {
@@ -370,7 +403,7 @@ namespace Exchange_UI
                     min2 = int.Parse(line.Substring(14, 2));
                     lineNum++;
                 }
-                MyTime timeDiff = new MyTime(0, hour1, min1) - new MyTime(0, hour2, min2);
+                MyTime timeDiff = new MyTime(DateTime.Now.Day, hour1, min1) - new MyTime(DateTime.Now.Day, hour2, min2);
                 int planLineNum = timeDiff.Hour * 60 + timeDiff.Min + 1;
                 if (planLineNum > lineNum)
                 {
@@ -443,7 +476,7 @@ namespace Exchange_UI
                     min2 = int.Parse(line.Substring(14, 2));
                     lineNum++;
                 }
-                MyTime timeDiff = new MyTime(0, hour1, min1) - new MyTime(0, hour2, min2);
+                MyTime timeDiff = new MyTime(DateTime.Now.Day, hour1, min1) - new MyTime(DateTime.Now.Day, hour2, min2);
                 int planLineNum = timeDiff.Hour * 60 + timeDiff.Min + 1;
                 if (planLineNum > lineNum)
                 {
@@ -473,6 +506,33 @@ namespace Exchange_UI
                     BasicData.mainUI });
             }
         }
+        public void hxc()
+        {
+            try
+            {
+                StreamReader sr = new StreamReader("E:/hxc.txt", Encoding.Default);
+                string line,name;
+                string[] data;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    data = line.Split(new char[] { ';' });
+                    name = data[0].Substring(0, 6);
+                    FindMoneyBoth(name).HxcNum = int.Parse(data[1]);
+                }
+                
+                sr.Close();
+            }
+            catch (Exception ex)
+            {
+                Setup.isFoundError = true;
+                BasicData.mainUI.Invoke(BasicData.mainUI.ShowFormText, new object[] { 
+                    basicFormText + "*无法使用hxc文件或者hxc文件不存在*",
+                    BasicData.mainUI });
+                hxc();
+            }
+        }
+
 
         private void GetMaxLengthY(int p)
         {
@@ -548,10 +608,10 @@ namespace Exchange_UI
             {
                 case 24: return true;
                 case 25: return true;
-                case 26: return true;
+                //case 26: return true;
                 case 54: return true;
                 case 55: return true;
-                case 56: return true;
+                //case 56: return true;
                 default: return false;
             }
         }
@@ -575,20 +635,47 @@ namespace Exchange_UI
 
             #endregion
         }   //空的
-        public void GetData()
+
+        /// <summary>
+        /// 为右侧七个折叠走势图提供排序好的货币对数据
+        /// </summary>
+        private void OrderAllDoubleSZTMoneyBoth()
         {
-            fenzhu();
-            diancha();
-            SVLV();
-            PPP();
-            TTT();
-            jjj();
-            DDD();
-            fenzhong();
-            SetGroup();
-            LongSumBSix();
-            ShortTrueNum();
-            //GetPriceChangeName();
+            //MoneyBoth[] basicMoneyBothTemp = (MoneyBoth[])basicMoneyBoth.OrderByDescending(j => j.Ordersum).ToArray().Clone();
+            doubleZST.Clear();
+            foreach(MoneyGroup mgp in basicMoneyGroup)
+            {
+                foreach(MoneyBoth mbth in mgp.allMoneyBoth)
+                {
+                    if(IsDiffColor(mbth.moneyA.MoneyColor,mbth.MoneyB.MoneyColor))
+                    {
+                        doubleZST.Add(mbth);
+                    }
+                }
+            }
+            doubleZST.Sort();
+        }
+
+        /// <summary>
+        /// 判断两个颜色是否是一红一绿
+        /// </summary>
+        /// <param name="colorA"></param>
+        /// <param name="colorB"></param>
+        /// <returns></returns>
+        private bool IsDiffColor(Color colorA, Color colorB)
+        {
+            if (colorA == DataShow.redColor && colorB == DataShow.greenColor)
+            {
+                return true;
+            }
+            else if (colorA == DataShow.greenColor && colorB == DataShow.redColor)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void GetPriceChangeName()

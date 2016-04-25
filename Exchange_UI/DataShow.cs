@@ -131,6 +131,23 @@ namespace Exchange_UI
                                     BasicData.mainUI.lcName27R,BasicData.mainUI.lcName28R
                                 };
 
+        public Label[] hxcName = {
+                                    BasicData.mainUI.hxcName1,BasicData.mainUI.hxcName2,
+                                    BasicData.mainUI.hxcName3,BasicData.mainUI.hxcName4,
+                                    BasicData.mainUI.hxcName5,BasicData.mainUI.hxcName6,
+                                    BasicData.mainUI.hxcName7,BasicData.mainUI.hxcName8,
+                                    BasicData.mainUI.hxcName9,BasicData.mainUI.hxcName10,
+                                    BasicData.mainUI.hxcName11,BasicData.mainUI.hxcName12,
+                                    BasicData.mainUI.hxcName13,BasicData.mainUI.hxcName14,
+                                    BasicData.mainUI.hxcName15,BasicData.mainUI.hxcName16,
+                                    BasicData.mainUI.hxcName17,BasicData.mainUI.hxcName18,
+                                    BasicData.mainUI.hxcName19,BasicData.mainUI.hxcName20,
+                                    BasicData.mainUI.hxcName21,BasicData.mainUI.hxcName22,
+                                    BasicData.mainUI.hxcName23,BasicData.mainUI.hxcName24,
+                                    BasicData.mainUI.hxcName25,BasicData.mainUI.hxcName26,
+                                    BasicData.mainUI.hxcName27,BasicData.mainUI.hxcName28
+                                };
+
         public Label[] lblShortA = {
                                           BasicData.mainUI.shortA1,BasicData.mainUI.shortA2,
                                           BasicData.mainUI.shortA3,BasicData.mainUI.shortA4,
@@ -205,6 +222,33 @@ namespace Exchange_UI
                                                 BasicData.mainUI.lblAUD,
                                                 BasicData.mainUI.lblNZD
                                         };
+        public Panel[] pnlAllZST = {
+                                       BasicData.mainUI.pnlAllZST1,
+                                       BasicData.mainUI.pnlAllZST2,
+                                       BasicData.mainUI.pnlAllZST3,
+                                       BasicData.mainUI.pnlAllZST4,
+                                       BasicData.mainUI.pnlAllZST5,
+                                       BasicData.mainUI.pnlAllZST6,
+                                       BasicData.mainUI.pnlAllZST7
+                                   };
+        public Label[] pnlAllZSTA = {
+                                       BasicData.mainUI.pnlAllZST1A,
+                                       BasicData.mainUI.pnlAllZST2A,
+                                       BasicData.mainUI.pnlAllZST3A,
+                                       BasicData.mainUI.pnlAllZST4A,
+                                       BasicData.mainUI.pnlAllZST5A,
+                                       BasicData.mainUI.pnlAllZST6A,
+                                       BasicData.mainUI.pnlAllZST7A
+                                     };
+        public Label[] pnlAllZSTB = {
+                                       BasicData.mainUI.pnlAllZST1B,
+                                       BasicData.mainUI.pnlAllZST2B,
+                                       BasicData.mainUI.pnlAllZST3B,
+                                       BasicData.mainUI.pnlAllZST4B,
+                                       BasicData.mainUI.pnlAllZST5B,
+                                       BasicData.mainUI.pnlAllZST6B,
+                                       BasicData.mainUI.pnlAllZST7B
+                                     };
 
         
         #endregion
@@ -231,7 +275,18 @@ namespace Exchange_UI
         //保存信号值数组
         public static int[] signNum = new int[33];
 
-        private Color redColor = Color.FromArgb(204, 0, 0);
+        /// <summary>
+        /// 货币对 【红色】
+        /// </summary>
+        public static Color redColor = Color.FromArgb(204, 0, 0);
+        /// <summary>
+        /// 货币对 【绿色】
+        /// </summary>
+        public static Color greenColor = Color.Green;
+        /// <summary>
+        /// 货币对 【灰色】
+        /// </summary>
+        public static Color grayColor = Color.Gray;
         #endregion
 
         /// <summary>
@@ -256,6 +311,7 @@ namespace Exchange_UI
             ToShort();
             //ToLong();
             ToLocation();
+            ToHxcData();
             ToBuyOrSell();
             ToPriceChange();
             //IsLocHaveData();
@@ -388,7 +444,7 @@ namespace Exchange_UI
             }
 
             //纵线
-            int[] tableVPosX = { 0, 82, 164, 239, 311, 378, 479, 572, 658 };     //线终点 纵坐标
+            int[] tableVPosX = { 0, 81, 162, 236, 307, 373, 473, 560, 658 };     //线终点 纵坐标
             int tableVPosY = 1;      //线起点 横坐标
             int[] tableVLength = { 182, 156, 130, 104, 78, 52, 28 };
             for (int j = 0; j < DataFiler.basicMoneyGroup.Length; j++)
@@ -685,7 +741,7 @@ namespace Exchange_UI
         }
         #endregion
 
-        #region 长观栏 与 进退栏
+        #region 风向栏 与 进退栏
         /// <summary>
         /// 检查是否显示长观值
         /// </summary>
@@ -723,6 +779,7 @@ namespace Exchange_UI
             int diffY = 3;
             int lineNum = 0;
 
+            GetFengxiangData();
             for (int i = 0; i < DataFiler.basicMoneyGroup.Length;i++ )
             {
                 //draw.PaintClear(tlpTable[i]);
@@ -737,31 +794,90 @@ namespace Exchange_UI
                         );
 
                     lineNum = GetLine(i, j);
-                        DataFiler.basicMoneyGroup[i].allMoneyBoth[j].BsState = false;
+                    DataFiler.basicMoneyGroup[i].allMoneyBoth[j].BsState = false;
+
                     if (IsShowLong(lineNum + 1, lcName[lineNum].Text ,lcNameR[lineNum].Text, DataFiler.basicMoneyGroup[i].allMoneyBoth[j].CirMarkState))
                     {
-                        if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].moneyA.LongM < 0)
+                        #region 暂留
+                        //double arg = 0;
+                        //for (int k = 0; k < DataFiler.basicMoneyGroup[i].allMoneyBoth.Length; k++ )
+                        //{
+                        //    int temp = int.Parse(hxcName[GetLine(i,k)].Text);
+                        //    if (hxcName[GetLine(i, k)].ForeColor == Color.Green)
+                        //    {
+                        //        arg += temp;
+                        //    }
+                        //    else
+                        //    {
+                        //        arg -= temp;
+                        //    }
+                        //}
+                        //arg /= DataFiler.basicMoneyGroup[i].allMoneyBoth.Length;
+                        //int result = 0;
+
+
+                        //if(arg > 0)
+                        //{
+                        //    result = (int)(arg + 0.5);
+                        //    BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { 
+                        //        Math.Abs(result).ToString(), 
+                        //        lblLongA[lineNum] });
+                        //    if(result != 0)
+                        //        lblLongA[lineNum].ForeColor = Color.Green;
+                        //    else
+                        //        lblLongA[lineNum].ForeColor = Color.Gray;
+                        //}
+                        //else if(arg < 0)
+                        //{
+                        //    result = (int)(arg - 0.5);
+                        //    BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { 
+                        //        Math.Abs(result).ToString(), 
+                        //        lblLongA[lineNum] });
+                        //    if (result != 0)
+                        //        lblLongA[lineNum].ForeColor = Color.Red;
+                        //    else
+                        //        lblLongA[lineNum].ForeColor = Color.Gray;
+                        //}
+
+
+                            
+                        
+                        #endregion
+
+                        BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] {
+                            Math.Abs(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].moneyA.Fengxiang).ToString(), 
+                            lblLongA[lineNum] });
+                        BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] {
+                            Math.Abs(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].MoneyB.Fengxiang).ToString(), 
+                            lblLongB[lineNum] });
+
+                        if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].moneyA.Fengxiang < 0)
                         {
                             lblLongA[lineNum].ForeColor = Color.Red;
                         }
-                        else
+                        else if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].moneyA.Fengxiang > 0)
                         {
                             lblLongA[lineNum].ForeColor = Color.Green;
                         }
-                        if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].MoneyB.LongM < 0)
+                        else
+                        {
+                            lblLongA[lineNum].ForeColor = Color.Gray;
+                        }
+
+                        if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].MoneyB.Fengxiang < 0)
                         {
                             lblLongB[lineNum].ForeColor = Color.Red;
                         }
-                        else
+                        else if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].MoneyB.Fengxiang > 0)
                         {
                             lblLongB[lineNum].ForeColor = Color.Green;
                         }
-                        BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { 
-                            Math.Abs(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].moneyA.LongM).ToString(), 
-                            lblLongA[lineNum] });
-                        BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] {
-                            Math.Abs(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].MoneyB.LongM).ToString(), 
-                            lblLongB[lineNum] });
+                        else
+                        {
+                            lblLongB[lineNum].ForeColor = Color.Gray;
+                        }
+
+
                         if (Setup.sBuyOrSell)
                             DataFiler.basicMoneyGroup[i].allMoneyBoth[j].BsState = true;
                         draw.PaintStr(                           //买卖符号
@@ -788,6 +904,66 @@ namespace Exchange_UI
                 }
             }
         }
+
+        private void GetFengxiangData()
+        {
+            for (int i = 0; i < DataFiler.basicMoneyGroup.Length; i++)
+            {
+                double arg = 0;
+
+                for (int k = 0; k < DataFiler.basicMoneyGroup[i].allMoneyBoth.Length; k++)
+                {
+                    int temp = int.Parse(hxcName[GetLine(i, k)].Text);
+                    if (hxcName[GetLine(i, k)].ForeColor == Color.Green)
+                    {
+                        arg += temp;
+                    }
+                    else
+                    {
+                        arg -= temp;
+                    }
+                }
+                arg /= DataFiler.basicMoneyGroup[i].allMoneyBoth.Length;
+                int result = 0;
+
+                if (arg > 0)
+                {
+                    result = (int)(arg + 0.5);
+
+                }
+                else if (arg < 0)
+                {
+                    result = (int)(arg - 0.5);
+
+                }
+                else
+                {
+                    result = 0;
+                }
+                if (i != 6)
+                {
+                    FindMoneyFromOrder(i+1).Fengxiang = result;
+                }
+                else
+                {
+                    FindMoneyFromOrder(i+1).Fengxiang = result;
+                    FindMoneyFromOrder(i+2).Fengxiang = result;
+                }
+            }
+        }
+
+        private Money FindMoneyFromOrder(int order)
+        {
+            foreach(Money m in DataFiler.basicMoney)
+            {
+                if(m.Order == order)
+                {
+                    return m;
+                }
+            }
+            return null;
+        }
+
         #endregion
 
         #region 位置栏
@@ -811,7 +987,7 @@ namespace Exchange_UI
                         lcNameR[lineNum]
                     });
                     mBoth.RedLineOldLoc = mBoth.RedLineLoc;
-                    mBoth.RedLineLoc = 0;
+                    //mBoth.RedLineLoc = 0;
 
                     if (mBoth.PosLocationR == 'R')
                     {
@@ -852,6 +1028,10 @@ namespace Exchange_UI
                         {
                             lcName[lineNum].ForeColor = Color.Gray;
                         }
+                    }
+                    else
+                    {
+                        mBoth.RedLineLoc = 0;
                     }
                     
                     lineNum++;
@@ -933,12 +1113,12 @@ namespace Exchange_UI
         /// <param name="s">位置栏text</param>
         /// <param name="m">货币对</param>
         /// <returns></returns>
-        private bool IsShowOutM(string s, MoneyBoth m)
+        private bool IsShowOutM(string s, MoneyBoth m)  //(m.moneyA.LongM + m.MoneyB.LongM < Setup.sOutLongSum )
         {
             m.OutState = false;
             if( s != "" &&
                 (   
-                    (m.moneyA.LongM + m.MoneyB.LongM < Setup.sOutLongSum )||
+                    false ||
                     (m.moneyA.Order +m.MoneyB.Order > Setup.sOutOrderSum) ) 
                 )
             {
@@ -987,6 +1167,46 @@ namespace Exchange_UI
             BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { DataFiler.basicMoneyGroup[5].allMoneyBoth[1].PriceChange.ToString(), BasicData.mainUI.dwName27 });
             BasicData.mainUI.Invoke(BasicData.mainUI.ShowText, new object[] { DataFiler.basicMoneyGroup[6].allMoneyBoth[0].PriceChange.ToString(), BasicData.mainUI.dwName28 });
         }
+        #endregion
+
+        #region hxc文件数据
+
+        public void ToHxcData()
+        {
+            for(int i  = 0; i < DataFiler.basicMoneyGroup.Length; i++)
+            {
+                for(int j = 0; j < DataFiler.basicMoneyGroup[i].allMoneyBoth.Length; j++)
+                {
+
+                    BasicData.mainUI.Invoke(
+                        BasicData.mainUI.ShowText,
+                        new object[] { 
+                            Math.Abs(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].HxcNum).ToString(),
+                            hxcName[GetLine(i, j)] 
+                        });
+                    
+                    if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].HxcNum == 0)
+                    {
+                        hxcName[GetLine(i, j)].ForeColor = Color.Gray;
+                    }
+                    else if(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].BuyOrSell == 'S')
+                    {
+                        if(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].HxcNum > 0)
+                            hxcName[GetLine(i, j)].ForeColor = Color.Red;
+                        else
+                            hxcName[GetLine(i, j)].ForeColor = Color.Green;
+                    }
+                    else
+                    {
+                        if (DataFiler.basicMoneyGroup[i].allMoneyBoth[j].HxcNum < 0)
+                            hxcName[GetLine(i, j)].ForeColor = Color.Red;
+                        else
+                            hxcName[GetLine(i, j)].ForeColor = Color.Green;
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region 倒计时
@@ -2338,12 +2558,12 @@ namespace Exchange_UI
             BasicData.mainUI.lblDoubleNameB.ForeColor = BasicData.zoushi_MBoth.MoneyB.MoneyColor;
             #endregion
 
-            InitDoubleZSTCo();
+            InitDoubleZSTCo(BasicData.mainUI.pnlDoubleZoushi);
             Color lineRecColor = Color.WhiteSmoke;
             int lineHeightY = 0;
             for(int i = 0; i < 33; i++)
             {
-                lineHeightY = GetSelectShizhiSum(i);
+                lineHeightY = GetSelectShizhiSum(i, BasicData.zoushi_MBoth);
                 draw.PaintRectangle(
                         BasicData.mainUI.pnlDoubleZoushi,
                         lineRecColor,
@@ -2377,9 +2597,9 @@ namespace Exchange_UI
         /// </summary>
         /// <param name="order">序号</param>
         /// <returns>当前选择的货币对的fengzhong值的和</returns>
-        private int GetSelectShizhiSum(int order)
+        private int GetSelectShizhiSum(int order, MoneyBoth mBth)
         {
-            int result = BasicData.zoushi_MBoth.moneyA.fengzhong[87 + order] + BasicData.zoushi_MBoth.MoneyB.fengzhong[87 + order] - 100;
+            int result = mBth.moneyA.fengzhong[87 + order] + mBth.MoneyB.fengzhong[87 + order] - 100;
             if (result < 0)
                 result = 0;
 
@@ -2389,12 +2609,12 @@ namespace Exchange_UI
         /// <summary>
         /// 初始化背景颜色
         /// </summary>
-        private void InitDoubleZSTCo()
+        private void InitDoubleZSTCo(Panel panel)
         {
-            draw.PaintClear(BasicData.mainUI.pnlDoubleZoushi);
+            draw.PaintClear(panel);
 
-            draw.PaintRectangle(BasicData.mainUI.pnlDoubleZoushi, Color.FromArgb(0, 0, 90), new Point(0, 0), 98, 140);
-            draw.PaintRectangle(BasicData.mainUI.pnlDoubleZoushi, Color.FromArgb(0, 0, 30), new Point(0, 140), 98, 60);
+            draw.PaintRectangle(panel, Color.FromArgb(0, 0, 90), new Point(0, 0), 98, 140);
+            draw.PaintRectangle(panel, Color.FromArgb(0, 0, 30), new Point(0, 140), 98, 60);
         }
 
         internal bool IsUpdateDZST()
@@ -2405,6 +2625,145 @@ namespace Exchange_UI
                 return false;
         }
 
+        #endregion
+
+        #region 7个叠加走势图
+        public void ToAllDoubleZST()
+        {
+            int[] X = { 58, 174, 291, 409, 525, 642, 755 };
+            int y = 17;
+            int radius = 15;
+            foreach(Panel panel in pnlAllZST)
+            {
+                BasicData.mainUI.Invoke(
+                    BasicData.mainUI.ShowConVisible,
+                    new object[] { false, panel }
+                    );
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                BasicData.mainUI.Invoke(
+                        BasicData.mainUI.ShowText,
+                        new object[] { "", pnlAllZSTA[i] }
+                        );
+                BasicData.mainUI.Invoke(
+                    BasicData.mainUI.ShowText,
+                    new object[] { "", pnlAllZSTB[i] }
+                    );
+                draw.PaintCir(BasicData.mainUI.pnlAllDJZoushi, BasicData.mainUI.pnlAllDJZoushi.BackColor, new Point(X[i], y), radius);
+                //pnlAllZSTA[i].ForeColor = DataFiler.doubleZST[i].moneyA.MoneyColor;
+                //pnlAllZSTB[i].ForeColor = DataFiler.doubleZST[i].MoneyB.MoneyColor;
+            }
+
+            int num = (DataFiler.doubleZST.Count < 7) ? DataFiler.doubleZST.Count : 7;
+            for(int i = 0; i < num; i++)
+            {
+                BasicData.mainUI.Invoke(
+                    BasicData.mainUI.ShowConVisible,
+                    new object[] { true, pnlAllZST[i] }
+                    );
+                ToEachDoubleZST(pnlAllZST[i], X[i], DataFiler.doubleZST[i], pnlAllZSTA[i], pnlAllZSTB[i]);
+            }
+        }
+
+        private void ToEachDoubleZST(Panel panel, int x, MoneyBoth mBth, Label A, Label B)
+        {
+            Color cGreen = Color.Green;
+            int y = 17;
+            int radius = 15;
+
+            if(mBth.PosLocation != 'x' || mBth.PosLocationR != 'x')
+            {
+                draw.PaintCir(BasicData.mainUI.pnlAllDJZoushi, cGreen, new Point(x, y), radius);
+            }
+            else
+            {
+                draw.PaintCir(BasicData.mainUI.pnlAllDJZoushi, BasicData.mainUI.pnlAllDJZoushi.BackColor, new Point(x, y), radius);
+            }
+
+
+            #region 叠加走势图上方货币名称及颜色
+            BasicData.mainUI.Invoke(
+                    BasicData.mainUI.ShowText,
+                    new object[] { mBth.moneyA.Name, A }
+                    );
+            BasicData.mainUI.Invoke(
+                BasicData.mainUI.ShowText,
+                new object[] { mBth.MoneyB.Name, B }
+                );
+            A.ForeColor = mBth.moneyA.MoneyColor;
+            B.ForeColor = mBth.MoneyB.MoneyColor;
+            #endregion
+
+            InitDoubleZSTCo(panel);
+
+            Color lineRecColor = Color.WhiteSmoke;
+            int lineHeightY = 0;
+            for (int i = 0; i < 33; i++)
+            {
+                lineHeightY = GetSelectShizhiSum(i,mBth);
+                draw.PaintRectangle(
+                        panel,
+                        lineRecColor,
+                        new Point(i * (zoushituX_Unit + 2), 200 - 2 * lineHeightY),
+                        zoushituX_Unit,
+                        2 * lineHeightY
+                        );
+            }
+            draw.PaintLine(
+                        panel,
+                        redColor,
+                        new Point(0, 201 - 2 * mBth.RedLineLoc),
+                        new Point(98, 201 - 2 * mBth.RedLineLoc),
+                        1
+                        );
+        }
+        
+        /// <summary>
+        /// 更新7个叠加走势图上方货币对名称的位置
+        /// </summary>
+        public void Update7_DJZSTLine()
+        {
+            int[] selectX = { 12, 128, 242, 360, 480, 595, 708 };
+            int selectY = 21;
+            int chang = 87;
+            int kuan = 23;
+            Color upLineColor = Color.WhiteSmoke;
+
+            int num = (DataFiler.doubleZST.Count < 7) ? DataFiler.doubleZST.Count : 7;
+            for(int i = 0; i < num; i++)
+            {
+                if (BasicData.zoushi_MBoth.Name == DataFiler.doubleZST[i].Name)
+                {
+                    draw.PaintRectangle(BasicData.mainUI.pnlAllDJZoushi, upLineColor, new Point(selectX[i], selectY), chang, kuan, 1);
+                    //BasicData.mainUI.pnlOverDJPic.Visible = true;
+                }
+                else
+                {
+                    draw.PaintRectangle(BasicData.mainUI.pnlAllDJZoushi, BasicData.mainUI.pnlAllDJZoushi.BackColor, new Point(selectX[i], selectY), chang, kuan, 1);
+                    //BasicData.mainUI.pnlOverDJPic.Visible = false;
+                }
+                //draw.PaintRectangle(BasicData.mainUI.pnlAllDJZoushi, upLineColor, new Point(selectX[i], selectY), chang, kuan, 1);
+            }
+        }
+
+        public void CheckDJZSTLine()
+        {
+            int num = (DataFiler.doubleZST.Count < 7) ? DataFiler.doubleZST.Count : 7;
+            bool result = false;
+            for (int i = 0; i < num; i++)
+            {
+                if (BasicData.zoushi_MBoth.Name == DataFiler.doubleZST[i].Name)
+                {
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
+            }
+            BasicData.mainUI.pnlOverDJPic.Visible = result;
+        }
         #endregion
 
         #region 在日行图的货币名称上 突显在走势图中展示的货币

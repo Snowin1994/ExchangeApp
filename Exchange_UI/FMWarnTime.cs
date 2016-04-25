@@ -148,8 +148,8 @@ namespace Exchange_UI
 
                 if (hour > DateTime.Now.Hour || ( hour == DateTime.Now.Hour && min - 1 > DateTime.Now.Minute))
                 {
-                    money.wakeupList.Add(new MyTime(0, hour, min));
-                    timeCountDown.Add(new TimeCountDown(money.Name, new MyTime(0, hour, min)));
+                    money.wakeupList.Add(new MyTime(DateTime.Now.Day, hour, min));
+                    timeCountDown.Add(new TimeCountDown(money.Name, new MyTime(DateTime.Now.Day, hour, min)));
 
                     money.wakeupList.Sort();
                     timeCountDown.Sort();

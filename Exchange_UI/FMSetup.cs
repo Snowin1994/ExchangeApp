@@ -82,9 +82,14 @@ namespace Exchange_UI
             checkBox7.Checked = Setup.sBuyOrSell;
             checkBox6.Checked = Setup.sOut;
 
+            //折叠走势图
+            comboBox11.Text = "15";
+            comboBox24.Text = "5";
+            comboBox25.Text = "5";
+
             //走势图灯音效
-            comboBox11.Text = Setup.zoushiGreen.ToString();
-            comboBox24.Text = Setup.zoushiRed.ToString();
+            //comboBox11.Text = Setup.zoushiGreen.ToString();
+            //comboBox24.Text = Setup.zoushiRed.ToString();
 
             #region 红黄绿 初始化
 
@@ -133,6 +138,7 @@ namespace Exchange_UI
             btnMoneybothFinish.Enabled = false;
             btnDianchaFinish.Enabled = false;
             btnCountDown.Enabled = false;
+            button2.Enabled = false;
         }
 
         #endregion
@@ -830,6 +836,26 @@ namespace Exchange_UI
             Setup.countDownAgain = int.Parse(comboBox28.SelectedItem.ToString());
 
             btnCountDown.Enabled = false;
+        }
+
+        private void comboBox11_SelectionChangeCommitted_1(object sender, EventArgs e)
+        {
+            button2.Enabled = true;
+        }
+
+        private void comboBox24_SelectionChangeCommitted_1(object sender, EventArgs e)
+        {
+            button2.Enabled = true;
+        }
+
+        private void comboBox25_SelectionChangeCommitted_1(object sender, EventArgs e)
+        {
+            button2.Enabled = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            button2.Enabled = false;
         }
 
 

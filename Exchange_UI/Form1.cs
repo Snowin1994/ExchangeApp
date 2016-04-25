@@ -34,10 +34,12 @@ namespace Exchange_UI
         public delegate void showButtonText(string s, System.Windows.Forms.Button BT);
         public delegate void showFormText(string s, System.Windows.Forms.Form FM);
         public delegate void showLabelFont(Font f, System.Windows.Forms.Label LB);
+        public delegate void showConVisible(bool result, System.Windows.Forms.Control con);
         public showText ShowText;
         public showButtonText ShowButtonText;
         public showFormText ShowFormText;
         public showLabelFont ShowLabelFont;
+        public showConVisible ShowConVisible;
 
         public DrawGraph draw;
 
@@ -46,8 +48,21 @@ namespace Exchange_UI
         public MainUI()
         {
             InitializeComponent();
-            SetupInit();
+            //OpenMyDoor(DateTime.Now);
             CountDownInit();
+        }
+
+        /// <summary>
+        /// MyDoor is my door
+        /// No key not come in!!!
+        /// </summary>
+        /// <param name="dateTime">当前系统</param>
+        private void OpenMyDoor(DateTime dateTime)
+        {
+            if(Setup.stopTime - dateTime < TimeSpan.Zero)
+            {
+                MessageBox.Show("请联系开发者！");
+            }
         }
 
         private void CountDownInit()
@@ -233,7 +248,6 @@ namespace Exchange_UI
         {
             LB.Text = s;
         }
-
         public void setButtonText(string s,System.Windows.Forms.Button BT)
         {
             BT.Text = s;
@@ -246,6 +260,10 @@ namespace Exchange_UI
         {
             LB.Font = f;
         }
+        public void setConVisible(bool result, System.Windows.Forms.Control con)
+        {
+            con.Visible = result;
+        }
         private void MainUI_Load(object sender, EventArgs e)
         {
 
@@ -253,10 +271,12 @@ namespace Exchange_UI
             ShowButtonText = new showButtonText(setButtonText);
             ShowFormText = new showFormText(setFormText);
             ShowLabelFont = new showLabelFont(setLabelFont);
+            ShowConVisible = new showConVisible(setConVisible);
 
-            MyTime.nowTime = new MyTime(0, DateTime.Now.Hour, DateTime.Now.Minute);     //系统时间初始化
+            MyTime.nowTime = new MyTime(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute);     //系统时间初始化
             BasicData.mainUI = this;
             draw = new DrawGraph();
+            SetupInit();
 
             workThread = new Thread(()=>
             {
@@ -459,7 +479,7 @@ namespace Exchange_UI
         {
             lblDateTime.Text = DateTime.Now.ToString();
 
-            MyTime.nowTime = new MyTime(0,DateTime.Now.Hour, DateTime.Now.Minute);
+            MyTime.nowTime = new MyTime(DateTime.Now.Day,DateTime.Now.Hour, DateTime.Now.Minute);
 
             #region 倒计时闪烁
             if(isEnabled)
@@ -542,6 +562,8 @@ namespace Exchange_UI
             //drawS.ToOutMark();
             drawS.IsLocHaveData();
             drawS.UpFXTMoneyNameColor();
+            drawS.Update7_DJZSTLine();
+            drawS.CheckDJZSTLine();
 
             if(watchNum == 0)
             {
@@ -558,6 +580,7 @@ namespace Exchange_UI
                 drawS.ToZoushitu();
 
                 drawS.ToDoubleZoushitu();
+                //drawS.ToAllDoubleZST();
                 drawS.ToFengxiangtu();
             }
 
@@ -602,6 +625,7 @@ namespace Exchange_UI
             dataShow.ToSignLight();
             dataShow.ToSignZoushitu();
             dataShow.ToDoubleZoushitu();
+            dataShow.ToAllDoubleZST();
             //dataShow.ToTime();
 
             //dataFiler.PPP();
@@ -623,6 +647,7 @@ namespace Exchange_UI
             dataShow.ToZoushitu();
             dataShow.ToSignZoushitu();
             dataShow.ToDoubleZoushitu();
+            dataShow.ToAllDoubleZST();
             dataShow.ToSignLight();
             dataShow.UpCirMark();
         }
@@ -2534,6 +2559,114 @@ namespace Exchange_UI
                 line = line + 7 - index;
             }
             return line + i + 1;
+        }
+
+        private void pnlDoubleZoushi_Click(object sender, EventArgs e)
+        {
+            if(pnlAllDJZoushi.Visible == false)
+            {
+                pnlAllDJZoushi.Visible = true;
+                new DataShow().ToAllDoubleZST();
+            }
+            else
+            {
+                pnlAllDJZoushi.Visible = false;
+                new DataShow().ToFengxiangtu();
+            }
+        }
+
+        private int GetLineFromName(string p)
+        {
+            for(int i  = 0; i < DataFiler.basicMoneyGroup.Length; i++)
+            {
+                for(int j = 0; j < DataFiler.basicMoneyGroup[i].allMoneyBoth.Length; j++)
+                {
+
+                    if(DataFiler.basicMoneyGroup[i].allMoneyBoth[j].Name == p)
+                    {
+                        return GetLine(i, j);
+                    }
+                }
+            }
+
+            return 1;
+        }
+        private void pnlAllZST1_Click(object sender, EventArgs e)
+        {
+            if (DataFiler.doubleZST.Count >= 1)
+            {
+                DataShow.linePosLast = DataShow.linePos;
+                DataShow.linePos = GetLineFromName(DataFiler.doubleZST[0].Name);
+                BasicData.zoushi_MBoth = DataFiler.doubleZST[0];
+                Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
+            }
+        }
+
+
+        private void pnlAllZST2_Click(object sender, EventArgs e)
+        {
+            if (DataFiler.doubleZST.Count >= 2)
+            {
+                DataShow.linePosLast = DataShow.linePos;
+                DataShow.linePos = GetLineFromName(DataFiler.doubleZST[1].Name);
+                BasicData.zoushi_MBoth = DataFiler.doubleZST[1];
+                Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
+            }
+        }
+
+        private void pnlAllZST3_Click(object sender, EventArgs e)
+        {
+            if (DataFiler.doubleZST.Count >= 3)
+            {
+                DataShow.linePosLast = DataShow.linePos;
+                DataShow.linePos = GetLineFromName(DataFiler.doubleZST[2].Name);
+                BasicData.zoushi_MBoth = DataFiler.doubleZST[2];
+                Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
+            }
+        }
+
+        private void pnlAllZST4_Click(object sender, EventArgs e)
+        {
+            if (DataFiler.doubleZST.Count >= 4)
+            {
+                DataShow.linePosLast = DataShow.linePos;
+                DataShow.linePos = GetLineFromName(DataFiler.doubleZST[3].Name);
+                BasicData.zoushi_MBoth = DataFiler.doubleZST[3];
+                Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
+            }
+        }
+
+        private void pnlAllZST5_Click(object sender, EventArgs e)
+        {
+            if (DataFiler.doubleZST.Count >= 5)
+            {
+                DataShow.linePosLast = DataShow.linePos;
+                DataShow.linePos = GetLineFromName(DataFiler.doubleZST[4].Name);
+                BasicData.zoushi_MBoth = DataFiler.doubleZST[4];
+                Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
+            }
+        }
+
+        private void pnlAllZST6_Click(object sender, EventArgs e)
+        {
+            if (DataFiler.doubleZST.Count >= 6)
+            {
+                DataShow.linePosLast = DataShow.linePos;
+                DataShow.linePos = GetLineFromName(DataFiler.doubleZST[5].Name);
+                BasicData.zoushi_MBoth = DataFiler.doubleZST[5];
+                Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
+            }
+        }
+
+        private void pnlAllZST7_Click(object sender, EventArgs e)
+        {
+            if (DataFiler.doubleZST.Count >= 7)
+            {
+                DataShow.linePosLast = DataShow.linePos;
+                DataShow.linePos = GetLineFromName(DataFiler.doubleZST[6].Name);
+                BasicData.zoushi_MBoth = DataFiler.doubleZST[6];
+                Setup.linePosOldName = BasicData.zoushi_MBoth.Name;
+            }
         }
 
 
